@@ -1650,8 +1650,8 @@ class ChartingState extends MusicBeatUIState
 					}
 					if (PlayState.SONG.needsVoices && Paths.voices(_song.song, 'Voices' + _song.postfix) == null
 						&& (
-							Paths.voices(_song.song, 'Voices_Player' + _song.postfix) == null
-							|| Paths.voices(_song.song, 'Voices_Opponent' + _song.postfix) == null
+							Paths.voices(_song.song, 'Voices-Player' + _song.postfix) == null
+							|| Paths.voices(_song.song, 'Voices-Opponent' + _song.postfix) == null
 						)
 					)
 					{
@@ -1749,8 +1749,8 @@ class ChartingState extends MusicBeatUIState
 			final singleVocals:openfl.media.Sound = Paths.voices(songData.song, 'Voices' + songData.postfix);
 			if (singleVocals == null)
 			{
-				vocalBF.loadEmbedded(Paths.voices(songData.song, 'Voices_Player' + songData.postfix));
-				vocal.loadEmbedded(Paths.voices(songData.song, 'Voices_Opponent' + songData.postfix));
+				vocalBF.loadEmbedded(Paths.voices(songData.song, 'Voices-Player' + songData.postfix));
+				vocal.loadEmbedded(Paths.voices(songData.song, 'Voices-Opponent' + songData.postfix));
 			}
 			else
 			{

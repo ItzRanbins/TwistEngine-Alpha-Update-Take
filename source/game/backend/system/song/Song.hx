@@ -112,7 +112,10 @@ class Song
 			var i:Int = 0;
 			var notesInSection:Array<Dynamic>;
 			var isReleasePsych = Reflect.field(songJson, 'format') != null;
-			trace(isReleasePsych);
+			if (isReleasePsych) {
+				Reflect.deleteField(songJson, 'format');
+			}
+		trace(isReleasePsych);
 			while(i < notes.length)
 			{
 				notesInSection = notes[i++].sectionNotes;

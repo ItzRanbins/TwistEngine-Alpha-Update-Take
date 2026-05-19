@@ -1768,8 +1768,8 @@ class PlayState extends MusicBeatState {
 				final singleVocals:openfl.media.Sound = Paths.voices(songData.song, 'Voices' + songData.postfix);
 				if (singleVocals == null)
 				{
-					vocals = EffectSound.load(Paths.voices(songData.song, 'Voices_Player' + songData.postfix));
-					vocalsDAD = EffectSound.load(Paths.voices(songData.song, 'Voices_Opponent' + songData.postfix));
+					vocals = EffectSound.load(Paths.voices(songData.song, 'Voices-Player' + songData.postfix));
+					vocalsDAD = EffectSound.load(Paths.voices(songData.song, 'Voices-Opponent' + songData.postfix));
 				}
 				else
 				{

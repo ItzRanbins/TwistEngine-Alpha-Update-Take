@@ -18,7 +18,6 @@ import flixel.system.FlxAssets;
 
 class MainMenuState extends MusicBeatState {
 	static var curSelected:Int = 0;
-
 	static final optionShit:Array<Array<EitherType<String, Void -> Class<MusicBeatState>>>> = [
 		['story_mode',  () -> return null],
 		['freeplay',    () -> return game.states.FreeplayState],
@@ -34,6 +33,8 @@ class MainMenuState extends MusicBeatState {
 	];
 	var magenta:FlxSprite;
 	var menuItems:FlxTypedGroup<FlxSprite>;
+	var lastMouseX:Float = 0;
+	var lastMouseY:Float = 0;
 
 	override function create()
 	{
@@ -41,7 +42,6 @@ class MainMenuState extends MusicBeatState {
 		persistentUpdate = persistentDraw = true;
 
 		final yScroll:Float = Math.max(0.2 - (0.05 * (optionShit.length - 4)), 0.1);
-
 		final bg:FlxSprite = new FlxSprite(Paths.image('menuBG'));
 		bg.scrollFactor.set(0, yScroll);
 		bg.scale.scale(1.175);
@@ -61,7 +61,6 @@ class MainMenuState extends MusicBeatState {
 		add(magenta);
 
 		menuItems = new FlxTypedGroup<FlxSprite>();
-
 		final scr:Float = optionShit.length < 6 ? 0 : (optionShit.length - 4) * 0.135;
 		final offset:Float = 108 - (Math.max(optionShit.length, 4) - 4) * 80;
 		for (i => data in optionShit)
@@ -81,7 +80,6 @@ class MainMenuState extends MusicBeatState {
 		}
 
 		FlxG.camera.follow(menuItems.members[0], null, 0);
-
 		final versionTxt:FlxStaticText = new FlxStaticText(12, FlxG.height - 8, 0, 'Twist Engine ${EngineData.engineVersion}
 		Friday Night Funkin v${lime.app.Application.current.meta.get('version')}', 16);
 		versionTxt.scrollFactor.set();
@@ -93,6 +91,9 @@ class MainMenuState extends MusicBeatState {
 		versionTxt.y -= versionTxt.height;
 
 		changeItem();
+
+		lastMouseX = FlxG.mouse.screenX;
+		lastMouseY = FlxG.mouse.screenY;
 
 		super.create();
 		#if DISCORD_RPC
@@ -113,14 +114,57 @@ class MainMenuState extends MusicBeatState {
 	{
 		if (subState == null && !selectedSomethin)
 		{
+			for (i => item in menuItems.members)
+			{
+				var targetScale:Float = (i == curSelected) ? 1.05 : 1.0;
+				var lerpVal:Float = FlxMath.bound(elapsed * 9, 0, 1);
+
+				item.scale.set(
+					FlxMath.lerp(item.scale.x, targetScale, lerpVal),
+					FlxMath.lerp(item.scale.y, targetScale, lerpVal)
+				);
+				item.origin.set(item.frameWidth * 0.5, item.frameHeight * 0.5);
+			}
+
+			var mouseMoved:Bool = (FlxG.mouse.screenX != lastMouseX || FlxG.mouse.screenY != lastMouseY);
+
+			if (mouseMoved)
+			{
+				for (i => item in menuItems.members)
+				{
+					if (FlxG.mouse.overlaps(item))
+					{
+						if (curSelected != i)
+						{
+							curSelected = i;
+							changeItem(0, true);
+						}
+					}
+				}
+				lastMouseX = FlxG.mouse.screenX;
+				lastMouseY = FlxG.mouse.screenY;
+			}
+
 			if (FlxG.mouse.wheel == 0)
 			{
-				if (controls.UI_UP_P)	changeItem(-1);
-				if (controls.UI_DOWN_P)	changeItem(1);
+				if (controls.UI_UP_P)
+				{
+					changeItem(-1);
+					lastMouseX = FlxG.mouse.screenX;
+					lastMouseY = FlxG.mouse.screenY;
+				}
+				if (controls.UI_DOWN_P)
+				{
+					changeItem(1);
+					lastMouseX = FlxG.mouse.screenX;
+					lastMouseY = FlxG.mouse.screenY;
+				}
 			}
 			else
 			{
 				changeItem(-FlxMath.signOf(FlxG.mouse.wheel));
+				lastMouseX = FlxG.mouse.screenX;
+				lastMouseY = FlxG.mouse.screenY;
 			}
 
 			// if (controls.BACK)
@@ -130,7 +174,7 @@ class MainMenuState extends MusicBeatState {
 			// 	MusicBeatState.switchState(new TitleState());
 			// }
 
-			if (controls.ACCEPT || FlxG.mouse.justPressed)
+			if (controls.ACCEPT || (FlxG.mouse.justPressed && FlxG.mouse.overlaps(menuItems.members[curSelected])))
 			{
 				final toStateFunc:Void -> Class<MusicBeatState> = optionShit[curSelected][1];
 				final toState:Class<MusicBeatState> = toStateFunc();
@@ -144,7 +188,6 @@ class MainMenuState extends MusicBeatState {
 
 					FlxFlicker.flicker(menuItems.members[curSelected], 1, 0.06, false, false, _ -> MusicBeatState.switchState(Type.createInstance(toState, []))
 					);
-
 					for (i in 0...menuItems.members.length)
 					{
 						if (i == curSelected) continue;
@@ -164,20 +207,25 @@ class MainMenuState extends MusicBeatState {
 		super.update(elapsed);
 	}
 
-	function changeItem(huh:Int = 0)
+	function changeItem(huh:Int = 0, mouseHover:Bool = false)
 	{
-		var spr:FlxSprite = null;
+		for (item in menuItems.members)
+		{
+			item.animation.play('idle');
+			item.centerOffsets();
+		}
+
 		if (huh != 0)
 		{
-			FlxG.sound.play(Paths.sound('scrollMenu'));
-
-			spr = menuItems.members[curSelected];
-			spr.animation.play('idle');
-			spr.centerOffsets();
 			curSelected = FlxMath.wrap(curSelected + huh, 0, menuItems.length - 1);
 		}
 
-		spr = menuItems.members[curSelected];
+		if (huh != 0 || mouseHover)
+		{
+			FlxG.sound.play(Paths.sound('scrollMenu'));
+		}
+
+		var spr:FlxSprite = menuItems.members[curSelected];
 		spr.animation.play('selected');
 		spr.centerOffsets();
 

@@ -5,7 +5,6 @@ import haxe.extern.EitherType;
 import haxe.io.Path;
 import game.states.playstate.PlayState;
 import haxe.Json;
-
 import game.backend.utils.PathUtil;
 
 abstract WeekDataKey(Array<String>) from Array<String>
@@ -44,7 +43,9 @@ class WeekData
 	}
 
 	public static function getDefaultSongMetaData(?genId:Bool):SongMetaData
-		return {}
+		return
+		{
+		}
 
 	public static function defaultWeekStruct():WeekStruct
 		return {
@@ -62,15 +63,16 @@ class WeekData
 	{
 		weeksDatas.clear();
 		weeksListOrder.clearArray();
-		final lastMod = ModsFolder.currentModFolderPath;
+
+		final currentMod = ModsFolder.currentModFolderPath;
 		var deJson:Dynamic = null;
+
 		for (file in AssetsPaths.getFolderContent("weeks", true))
 		{
 			trace(file);
 			if (PathUtil.extension(file) != 'json')
 				continue;
 
-			ModsFolder.switchMod("5rubles");
 			if (weeksDatas.exists(file))
 				continue;
 
@@ -78,7 +80,7 @@ class WeekData
 			{
 				deJson = Json.parse(Assets.getText(file));
 			}
-			catch(e)
+			catch (e)
 			{
 				CoolUtil.alert(e.message, "Error to Parse json: " + file);
 				deJson = null;
@@ -87,12 +89,12 @@ class WeekData
 				continue;
 
 			weeksDatas.set(file, addWeek(deJson, file));
-			weeksListOrder.push(new WeekDataKey(file, "5rubles"));
+			weeksListOrder.push(new WeekDataKey(file, currentMod));
 		}
 		trace(weeksDatas);
 		trace(weeksListOrder);
-		ModsFolder.switchMod(lastMod);
 	}
+
 	public static function convertDifficulties(source:haxe.extern.EitherType<String, Array<String>>):Array<String>
 	{
 		if (source == null)
@@ -105,10 +107,10 @@ class WeekData
 		while (i > 0)
 		{
 			diff = diffs[i];
-			if(diff != null)
+			if (diff != null)
 			{
 				diff = diff.trim().toLowerCase();
-				if(diff.length == 0)
+				if (diff.length == 0)
 				{
 					diffs.remove(diffs[i]);
 				}
@@ -146,12 +148,12 @@ class WeekData
 			return new WeekData({
 				songs: [
 					for (i in data.songs)
-					{
-						songName: i[0],
-						healthIcon: i[1],
-						freeplayColor: i[2],
-						invisibleInFreeplay: data.hideFreeplay
-					}
+						{
+							songName: i[0],
+							healthIcon: i[1],
+							freeplayColor: i[2],
+							invisibleInFreeplay: data.hideFreeplay
+						}
 				],
 				isTwist: false,
 				difficulties: convertDifficulties(data.difficulties),
@@ -221,6 +223,7 @@ class SongMetaData
 	var freeplayColor:DynamicColor = 0xFFABCACA;
 	var invisibleInFreeplay:Bool = false;
 	var extraFields:Dynamic = null;
+
 	public function toString()
 		return FlxStringUtil.getDebugString([
 			LabelValuePair.weak("displaySongName", displaySongName),

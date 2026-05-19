@@ -247,8 +247,8 @@ class LoadingState extends MusicBeatSubstate
 
 			loadSoundAlt(AssetsPaths.inst(SONG.song, SONG.postfix));
 			loadSoundAlt(AssetsPaths.voices(SONG.song, 'Voices' + SONG.postfix));
-			loadSoundAlt(AssetsPaths.voices(SONG.song, 'Voices_Player' + SONG.postfix));
-			loadSoundAlt(AssetsPaths.voices(SONG.song, 'Voices_Opponent' + SONG.postfix));
+			loadSoundAlt(AssetsPaths.voices(SONG.song, 'Voices-Player' + SONG.postfix));
+			loadSoundAlt(AssetsPaths.voices(SONG.song, 'Voices-Opponent' + SONG.postfix));
 
 			canLeave = true;
 		});

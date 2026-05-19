@@ -76,11 +76,13 @@ class MusicBeatState extends FlxTransitionableState
 	public function createHitbox(visible:Bool = true, ?camera:FlxCamera):Void
 	{
 		#if TOUCH_CONTROLS
-		if (hitbox != null) removeHitbox();
+		if (hitbox != null)
+			removeHitbox();
 
 		hitbox = new MobileHitbox();
 		hitbox.visible = visible;
-		if (camera != null) hitbox.cameras = [camera];
+		if (camera != null)
+			hitbox.cameras = [camera];
 		add(hitbox);
 		#end
 	}
@@ -179,15 +181,31 @@ class MusicBeatState extends FlxTransitionableState
 	{
 		updateConductor();
 		call("update", [elapsed]);
-		/*
-			#if DEV_BUILD
-			if (script != null && FlxG.keys.justPressed.F5)
-			{
-				FlxTransitionableState.skipNextTransIn = FlxTransitionableState.skipNextTransOut = true;
-				FlxG.resetState();
-			}
+
+		if (flixel.FlxG.keys.justPressed.F5)
+		{
+			trace("Reloading assets...");
+
+			flixel.FlxG.bitmap.clearCache();
+			flixel.FlxG.sound.destroy(true);
+			AssetsPaths.resetFramesCache();
+
+			#if openfl
+			openfl.utils.Assets.cache.clear();
 			#end
-		 */
+
+			#if lime
+			@:privateAccess lime.utils.Assets.cache.image.clear();
+			@:privateAccess lime.utils.Assets.cache.audio.clear();
+			@:privateAccess lime.utils.Assets.cache.font.clear();
+			#end
+
+			flixel.addons.transition.FlxTransitionableState.skipNextTransIn = true;
+			flixel.addons.transition.FlxTransitionableState.skipNextTransOut = true;
+
+			flixel.FlxG.resetState();
+		}
+
 		super.update(elapsed);
 	}
 
@@ -482,7 +500,6 @@ class MusicBeatUIState extends FlxUIState
 
 		updateCurStep();
 		updateBeat();
-
 		if (oldStep != curStep)
 		{
 			if (curStep > 0)
@@ -494,15 +511,30 @@ class MusicBeatUIState extends FlxUIState
 			();
 		}
 		call("update", [elapsed]);
-		/*
-			#if DEV_BUILD
-			if (script != null && FlxG.keys.justPressed.F5)
-			{
-				FlxTransitionableState.skipNextTransIn = FlxTransitionableState.skipNextTransOut = true;
-				FlxG.resetState();
-			}
+
+		if (flixel.FlxG.keys.justPressed.F5)
+		{
+			trace("Reloading UI assets...");
+
+			flixel.FlxG.bitmap.clearCache();
+			flixel.FlxG.sound.destroy(true);
+			AssetsPaths.resetFramesCache();
+
+			#if openfl
+			openfl.utils.Assets.cache.clear();
 			#end
-		 */
+
+			#if lime
+			@:privateAccess lime.utils.Assets.cache.image.clear();
+			@:privateAccess lime.utils.Assets.cache.audio.clear();
+			@:privateAccess lime.utils.Assets.cache.font.clear();
+			#end
+
+			flixel.addons.transition.FlxTransitionableState.skipNextTransIn = true;
+			flixel.addons.transition.FlxTransitionableState.skipNextTransOut = true;
+			flixel.FlxG.resetState();
+		}
+
 		super.update(elapsed);
 	}
 
@@ -551,7 +583,6 @@ class MusicBeatUIState extends FlxUIState
 	function updateCurStep():Void
 	{
 		final lastChange = Conductor.getBPMFromSeconds(Conductor.songPosition);
-
 		final shit = (Conductor.songPosition - ClientPrefs.noteOffset - lastChange.songTime) / lastChange.stepCrochet;
 		curDecStep = lastChange.stepTime + shit;
 		curStep = lastChange.stepTime + Math.floor(shit);
