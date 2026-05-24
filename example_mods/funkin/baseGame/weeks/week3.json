@@ -1,0 +1,44 @@
+{
+	"isTwist": true,
+	"hideInFreeplay": false,
+	"difficulties": "easy, normal, hard",
+
+	"songs": [
+		{
+			"songName": "Pico",
+			"displaySongName": "Pico",
+			"healthIcon": "pico",
+			"freeplayColor": [148, 22, 83],
+			"invisibleInFreeplay": false
+		},
+		{
+			"songName": "Philly Nice",
+			"displaySongName": "Philly Nice",
+			"healthIcon": "pico",
+			"freeplayColor": [148, 22, 83],
+			"invisibleInFreeplay": false
+		},
+		{
+			"songName": "Blammed",
+			"displaySongName": "Blammed",
+			"healthIcon": "pico",
+			"freeplayColor": [148, 22, 83],
+			"invisibleInFreeplay": false
+		}
+	],
+
+	"storyMenu": {
+		"title": "week3",
+		"description": "An old acquaintance steps up to the mic.",
+		"character": [
+			"pico",
+			"bf",
+			"gf"
+		],
+		"bg": "philly",
+		"weekBefore": "week2",
+		"hide": false,
+		"firstTimeBlocked": false,
+		"hiddenUntilUnlocked": false
+	}
+}

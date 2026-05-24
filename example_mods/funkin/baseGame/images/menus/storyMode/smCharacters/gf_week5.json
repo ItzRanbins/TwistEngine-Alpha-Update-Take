@@ -1,0 +1,12 @@
+{
+	
+	"image": "Menu_GF_week5",
+	"position": [
+		190,
+		167
+	],
+	"scale": 0.5,
+	"idle_anim": "GF Dancing Beat",
+	"confirm_anim": "GF Cheer",
+	"antialiasing": true
+}

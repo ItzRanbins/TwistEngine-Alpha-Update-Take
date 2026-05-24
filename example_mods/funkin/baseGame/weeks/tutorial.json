@@ -1,0 +1,30 @@
+{
+	"isTwist": true,
+	"hideInFreeplay": false,
+	"difficulties": "easy, normal, hard",
+
+	"songs": [
+		{
+			"songName": "Tutorial",
+			"displaySongName": "Tutorial",
+			"healthIcon": "gf",
+			"freeplayColor": [165, 0, 77],
+			"invisibleInFreeplay": false
+		}
+	],
+
+	"storyMenu": {
+		"title": "tutorial",
+		"description": "Learning how to play",
+		"character": [
+			"dad",
+			"bf",
+			"gf"
+		],
+		"bg": "stage",
+		"weekBefore": "tutorial",
+		"hide": false,
+		"firstTimeBlocked": false,
+		"hiddenUntilUnlocked": false
+	}
+}

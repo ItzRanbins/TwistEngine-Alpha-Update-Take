@@ -1,0 +1,51 @@
+{
+	"isTwist": true,
+	"hideInFreeplay": false,
+	"difficulties": "easy, normal, hard",
+
+	"songs": [
+		{
+			"songName": "Darnell",
+			"displaySongName": "Darnell",
+			"healthIcon": "darnell",
+			"freeplayColor": [65, 60, 174],
+			"invisibleInFreeplay": false
+		},
+		{
+			"songName": "Lit Up",
+			"displaySongName": "Lit Up",
+			"healthIcon": "darnell",
+			"freeplayColor": [65, 60, 174],
+			"invisibleInFreeplay": false
+		},
+		{
+			"songName": "2Hot",
+			"displaySongName": "2Hot",
+			"healthIcon": "darnell",
+			"freeplayColor": [65, 60, 174],
+			"invisibleInFreeplay": false
+		},
+		{
+			"songName": "Blazin",
+			"displaySongName": "Blazin",
+			"healthIcon": "darnell",
+			"freeplayColor": [65, 60, 174],
+			"invisibleInFreeplay": false
+		}
+	],
+
+	"storyMenu": {
+		"title": "weekend1",
+		"description": "Settling old scores on the streets of Philly.",
+		"character": [
+			"darnell",
+			"pico-player",
+			"nene"
+		],
+		"bg": "phillystreets",
+		"weekBefore": "week7",
+		"hide": false,
+		"firstTimeBlocked": false,
+		"hiddenUntilUnlocked": false
+	}
+}

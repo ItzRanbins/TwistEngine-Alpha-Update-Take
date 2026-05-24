@@ -1,0 +1,12 @@
+{
+	
+	"image": "Menu_DAD",
+	"position": [
+		150,
+		200
+	],
+	"scale": 0.45,
+	"idle_anim": "M Dad Idle",
+	"confirm_anim": "M Dad Idle",
+	"antialiasing": true
+}

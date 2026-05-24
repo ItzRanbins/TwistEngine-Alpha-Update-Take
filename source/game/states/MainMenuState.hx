@@ -19,7 +19,7 @@ import flixel.system.FlxAssets;
 class MainMenuState extends MusicBeatState {
 	static var curSelected:Int = 0;
 	static final optionShit:Array<Array<EitherType<String, Void -> Class<MusicBeatState>>>> = [
-		['story_mode',  () -> return null],
+		['story_mode',  () -> return game.states.StoryMenuState],
 		['freeplay',    () -> return game.states.FreeplayState],
 		[
 			'options',

@@ -1,0 +1,44 @@
+{
+	"isTwist": true,
+	"hideInFreeplay": false,
+	"difficulties": "easy, normal, hard",
+
+	"songs": [
+		{
+			"songName": "Ugh",
+			"displaySongName": "Ugh",
+			"healthIcon": "tankman",
+			"freeplayColor": [246, 182, 4],
+			"invisibleInFreeplay": false
+		},
+		{
+			"songName": "Guns",
+			"displaySongName": "Guns",
+			"healthIcon": "tankman",
+			"freeplayColor": [246, 182, 4],
+			"invisibleInFreeplay": false
+		},
+		{
+			"songName": "Stress",
+			"displaySongName": "Stress",
+			"healthIcon": "tankman",
+			"freeplayColor": [246, 182, 4],
+			"invisibleInFreeplay": false
+		}
+	],
+
+	"storyMenu": {
+		"title": "week7",
+		"description": "Ugh! Welcome to the war zone.",
+		"character": [
+			"tankman",
+			"bf",
+			"gf_week7"
+		],
+		"bg": "tank",
+		"weekBefore": "week6",
+		"hide": false,
+		"firstTimeBlocked": false,
+		"hiddenUntilUnlocked": false
+	}
+}

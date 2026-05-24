@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="Menu_BF_week6.png">
+	<!-- Created with Adobe Animate version 20.5.1.31044 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="BF IDLE0000" x="2" y="2" width="76" height="76"/>
+	<SubTexture name="BF IDLE0001" x="2" y="2" width="76" height="76"/>
+	<SubTexture name="BF IDLE0002" x="80" y="2" width="76" height="76"/>
+	<SubTexture name="BF IDLE0003" x="80" y="2" width="76" height="76"/>
+	<SubTexture name="BF IDLE0004" x="158" y="2" width="76" height="76"/>
+	<SubTexture name="BF IDLE0005" x="158" y="2" width="76" height="76"/>
+	<SubTexture name="BF IDLE0006" x="2" y="80" width="76" height="76"/>
+	<SubTexture name="BF IDLE0007" x="2" y="80" width="76" height="76"/>
+	<SubTexture name="BF IDLE0008" x="80" y="80" width="76" height="76"/>
+	<SubTexture name="BF IDLE0009" x="80" y="80" width="76" height="76"/>
+	<SubTexture name="BF IDLE0010" x="80" y="80" width="76" height="76"/>
+	<SubTexture name="BF IDLE0011" x="80" y="80" width="76" height="76"/>
+	<SubTexture name="BF IDLE0012" x="80" y="80" width="76" height="76"/>
+	<SubTexture name="BF IDLE0013" x="80" y="80" width="76" height="76"/>
+</TextureAtlas>

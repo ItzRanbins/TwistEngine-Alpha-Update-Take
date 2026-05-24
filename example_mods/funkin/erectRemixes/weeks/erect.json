@@ -1,0 +1,142 @@
+{
+	"isTwist": true,
+	"hideInFreeplay": false,
+	"difficulties": "erect, nightmare",
+
+	"songs": [
+		{
+			"songName": "Bopeebo Erect",
+			"displaySongName": "Bopeebo Erect",
+			"healthIcon": "dad",
+			"freeplayColor": [146, 113, 253],
+			"invisibleInFreeplay": false
+		},
+		{
+			"songName": "Fresh Erect",
+			"displaySongName": "Fresh Erect",
+			"healthIcon": "dad",
+			"freeplayColor": [146, 113, 253],
+			"invisibleInFreeplay": false
+		},
+		{
+			"songName": "DadBattle Erect",
+			"displaySongName": "DadBattle Erect",
+			"healthIcon": "dad",
+			"freeplayColor": [146, 113, 253],
+			"invisibleInFreeplay": false
+		},
+		{
+			"songName": "Spookeez Erect",
+			"displaySongName": "Spookeez Erect",
+			"healthIcon": "spooky",
+			"freeplayColor": [34, 51, 68],
+			"invisibleInFreeplay": false
+		},
+		{
+			"songName": "South Erect",
+			"displaySongName": "South Erect",
+			"healthIcon": "spooky",
+			"freeplayColor": [34, 51, 68],
+			"invisibleInFreeplay": false
+		},
+		{
+			"songName": "Pico Erect",
+			"displaySongName": "Pico Erect",
+			"healthIcon": "pico",
+			"freeplayColor": [148, 22, 83],
+			"invisibleInFreeplay": false
+		},
+		{
+			"songName": "Philly Nice Erect",
+			"displaySongName": "Philly Nice Erect",
+			"healthIcon": "pico",
+			"freeplayColor": [148, 22, 83],
+			"invisibleInFreeplay": false
+		},
+		{
+			"songName": "Blammed Erect",
+			"displaySongName": "Blammed Erect",
+			"healthIcon": "pico",
+			"freeplayColor": [148, 22, 83],
+			"invisibleInFreeplay": false
+		},
+		{
+			"songName": "Satin Panties Erect",
+			"displaySongName": "Satin Panties Erect",
+			"healthIcon": "mom",
+			"freeplayColor": [252, 150, 215],
+			"invisibleInFreeplay": false
+		},
+		{
+			"songName": "High Erect",
+			"displaySongName": "High Erect",
+			"healthIcon": "mom",
+			"freeplayColor": [252, 150, 215],
+			"invisibleInFreeplay": false
+		},
+		{
+			"songName": "Cocoa Erect",
+			"displaySongName": "Cocoa Erect",
+			"healthIcon": "parents",
+			"freeplayColor": [160, 209, 255],
+			"invisibleInFreeplay": false
+		},
+		{
+			"songName": "Eggnog Erect",
+			"displaySongName": "Eggnog Erect",
+			"healthIcon": "parents",
+			"freeplayColor": [160, 209, 255],
+			"invisibleInFreeplay": false
+		},
+		{
+			"songName": "Senpai Erect",
+			"displaySongName": "Senpai Erect",
+			"healthIcon": "senpai-pixel",
+			"freeplayColor": [255, 120, 191],
+			"invisibleInFreeplay": false
+		},
+		{
+			"songName": "Roses Erect",
+			"displaySongName": "Roses Erect",
+			"healthIcon": "senpai-pixel",
+			"freeplayColor": [255, 120, 191],
+			"invisibleInFreeplay": false
+		},
+		{
+			"songName": "Thorns Erect",
+			"displaySongName": "Thorns Erect",
+			"healthIcon": "spirit-pixel",
+			"freeplayColor": [255, 120, 191],
+			"invisibleInFreeplay": false
+		},
+		{
+			"songName": "Ugh Erect",
+			"displaySongName": "Ugh Erect",
+			"healthIcon": "tankman",
+			"freeplayColor": [246, 182, 4],
+			"invisibleInFreeplay": false
+		},
+		{
+			"songName": "Darnell Erect",
+			"displaySongName": "Darnell Erect",
+			"healthIcon": "darnell",
+			"freeplayColor": [65, 60, 174],
+			"invisibleInFreeplay": false
+		}
+	],
+
+	"storyMenu": {
+		"title": "Erect Remixes",
+		"description": "The ultimate challenge. Are your fingers ready?",
+		"character": [
+			"dad",
+			"bf",
+			"gf"
+		],
+		"bg": "stage",
+		"weekBefore": "week7",
+		"hide": false,
+		"firstTimeBlocked": false,
+		"hiddenUntilUnlocked": false
+	}
+}

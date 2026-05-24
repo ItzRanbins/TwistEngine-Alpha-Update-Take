@@ -1,0 +1,44 @@
+{
+	"isTwist": true,
+	"hideInFreeplay": false,
+	"difficulties": "easy, normal, hard",
+
+	"songs": [
+		{
+			"songName": "Senpai",
+			"displaySongName": "Senpai",
+			"healthIcon": "senpai-pixel",
+			"freeplayColor": [255, 120, 191],
+			"invisibleInFreeplay": false
+		},
+		{
+			"songName": "Roses",
+			"displaySongName": "Roses",
+			"healthIcon": "senpai-pixel",
+			"freeplayColor": [255, 120, 191],
+			"invisibleInFreeplay": false
+		},
+		{
+			"songName": "Thorns",
+			"displaySongName": "Thorns",
+			"healthIcon": "spirit-pixel",
+			"freeplayColor": [255, 120, 191],
+			"invisibleInFreeplay": false
+		}
+	],
+
+	"storyMenu": {
+		"title": "week6",
+		"description": "Trapped in an old dating sim game.",
+		"character": [
+			"senpai",
+			"bf_week6",
+			"gf_week6"
+		],
+		"bg": "school",
+		"weekBefore": "week5",
+		"hide": false,
+		"firstTimeBlocked": false,
+		"hiddenUntilUnlocked": false
+	}
+}

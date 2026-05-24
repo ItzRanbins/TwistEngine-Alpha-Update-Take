@@ -1,0 +1,44 @@
+{
+	"isTwist": true,
+	"hideInFreeplay": false,
+	"difficulties": "easy, normal, hard",
+
+	"songs": [
+		{
+			"songName": "Spookeez",
+			"displaySongName": "Spookeez",
+			"healthIcon": "spooky",
+			"freeplayColor": [34, 51, 68],
+			"invisibleInFreeplay": false
+		},
+		{
+			"songName": "South",
+			"displaySongName": "South",
+			"healthIcon": "spooky",
+			"freeplayColor": [34, 51, 68],
+			"invisibleInFreeplay": false
+		},
+		{
+			"songName": "Monster",
+			"displaySongName": "Monster",
+			"healthIcon": "monster",
+			"freeplayColor": [34, 51, 68],
+			"invisibleInFreeplay": false
+		}
+	],
+
+	"storyMenu": {
+		"title": "week2",
+		"description": "Spooky scary skeletons send shivers down your spine...",
+		"character": [
+			"spooky",
+			"bf",
+			"gf"
+		],
+		"bg": "halloween",
+		"weekBefore": "week1",
+		"hide": false,
+		"firstTimeBlocked": false,
+		"hiddenUntilUnlocked": false
+	}
+}

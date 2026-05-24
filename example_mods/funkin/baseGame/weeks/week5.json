@@ -1,0 +1,44 @@
+{
+	"isTwist": true,
+	"hideInFreeplay": false,
+	"difficulties": "easy, normal, hard",
+
+	"songs": [
+		{
+			"songName": "Cocoa",
+			"displaySongName": "Cocoa",
+			"healthIcon": "parents",
+			"freeplayColor": [160, 209, 255],
+			"invisibleInFreeplay": false
+		},
+		{
+			"songName": "Eggnog",
+			"displaySongName": "Eggnog",
+			"healthIcon": "parents",
+			"freeplayColor": [160, 209, 255],
+			"invisibleInFreeplay": false
+		},
+		{
+			"songName": "Winter Horrorland",
+			"displaySongName": "Winter Horrorland",
+			"healthIcon": "monster",
+			"freeplayColor": [160, 209, 255],
+			"invisibleInFreeplay": false
+		}
+	],
+
+	"storyMenu": {
+		"title": "week5",
+		"description": "Have yourself a scary little Christmas.",
+		"character": [
+			"parents-christmas",
+			"bf_week5",
+			"gf_week5"
+		],
+		"bg": "christmas",
+		"weekBefore": "week4",
+		"hide": false,
+		"firstTimeBlocked": false,
+		"hiddenUntilUnlocked": false
+	}
+}

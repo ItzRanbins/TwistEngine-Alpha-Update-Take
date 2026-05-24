@@ -1,0 +1,44 @@
+{
+	"isTwist": true,
+	"hideInFreeplay": false,
+	"difficulties": "easy, normal, hard",
+
+	"songs": [
+		{
+			"songName": "Bopeebo",
+			"displaySongName": "Bopeebo",
+			"healthIcon": "dad",
+			"freeplayColor": [146, 113, 253],
+			"invisibleInFreeplay": false
+		},
+		{
+			"songName": "Fresh",
+			"displaySongName": "Fresh",
+			"healthIcon": "dad",
+			"freeplayColor": [146, 113, 253],
+			"invisibleInFreeplay": false
+		},
+		{
+			"songName": "Dad Battle",
+			"displaySongName": "Dad Battle",
+			"healthIcon": "dad",
+			"freeplayColor": [146, 113, 253],
+			"invisibleInFreeplay": false
+		}
+	],
+
+	"storyMenu": {
+		"title": "week1",
+		"description": "Face off against the ex-rockstar father!",
+		"character": [
+			"dad",
+			"bf",
+			"gf"
+		],
+		"bg": "stage",
+		"weekBefore": "tutorial",
+		"hide": false,
+		"firstTimeBlocked": false,
+		"hiddenUntilUnlocked": false
+	}
+}
