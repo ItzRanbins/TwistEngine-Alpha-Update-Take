@@ -46,6 +46,18 @@ class Highscore
 		FlxG.save.flush();
 	}
 
+	public static function getWeekScore(week:String, diff:Int):Int
+	{
+		var diffName:String = Difficulty.getString(diff);
+		var daWeek:String = formatSong(week, diffName);
+
+		if (weeksData.exists(daWeek))
+		{
+			return weeksData.get(daWeek).score;
+		}
+		return 0;
+	}
+
 	public static function save(daSong:String, data:ScoreData, ?diff:String):Void{
 		daSong = formatSong(daSong, diff);
 		if (songsData.exists(daSong))

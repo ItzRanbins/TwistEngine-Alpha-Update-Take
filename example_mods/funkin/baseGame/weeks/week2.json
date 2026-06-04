@@ -1,7 +1,7 @@
 {
 	"isTwist": true,
 	"hideInFreeplay": false,
-	"difficulties": "easy, normal, hard",
+	"difficulties": "easy, normal, hard, erect, nightmare",
 
 	"songs": [
 		{
@@ -29,7 +29,20 @@
 
 	"storyMenu": {
 		"title": "week2",
-		"description": "Spooky scary skeletons send shivers down your spine...",
+		"description": "Spooky Month",
+		"weekMusicTheme": "storyModeThemes/week2",
+
+		"characterColors": [
+			"#735D8A",
+			"#735D8A",
+			"#735D8A"
+		],
+
+		"bgGradientColor": [
+			"#231F26",
+			"#0F0D11"
+		],
+
 		"character": [
 			"spooky",
 			"bf",

@@ -566,6 +566,7 @@ class CharacterEditorState extends MusicBeatUIState
 	var scaleIconStepper:FlxUINumericStepper;
 	var positionIconXStepper:FlxUINumericStepper;
 	var positionIconYStepper:FlxUINumericStepper;
+	var beatIntensityStepper:FlxUINumericStepper;
 	var flipIconXCheckBox:FlxUICheckBox;
 	var noAntialiasingIconCheckBox:FlxUICheckBox;
 	var colorPicker:ColorPickerGroup;
@@ -586,71 +587,215 @@ class CharacterEditorState extends MusicBeatUIState
 
 		healthIconInputText = new FlxUIInputText(15, 35, 75, leHealthIcon.getCharacter(), 8);
 
-		scaleIconStepper = new FlxUINumericStepper(15, healthIconInputText.y + 40, 0.1, 1, 0.05, 10, 2);
+		scaleIconStepper = new FlxUINumericStepper(15, healthIconInputText.y + 40, 0.05, leHealthIcon.data.scale, 0.1, 5, 2);
+		scaleIconStepper.value = leHealthIcon.data.scale;
+
+		positionIconXStepper = new FlxUINumericStepper(15, scaleIconStepper.y + 40, 5, leHealthIcon.data.offsets[0], -500, 500, 0);
+		positionIconYStepper = new FlxUINumericStepper(positionIconXStepper.x + 70, positionIconXStepper.y, 5, leHealthIcon.data.offsets[1], -500, 500, 0);
+
+		beatIntensityStepper = new FlxUINumericStepper(15, positionIconXStepper.y + 40, 0.05, leHealthIcon.data.bobInsetity, 1.0, 2.0, 2);
+		beatIntensityStepper.value = leHealthIcon.data.bobInsetity;
+
+		if (beatIntensityStepper.value < 1.0)
+			beatIntensityStepper.value = 1.0;
+
+		if (beatIntensityStepper.value > 2.0)
+			beatIntensityStepper.value = 2.0;
 
 		flipIconXCheckBox = new FlxUICheckBox(healthIconInputText.x + healthIconInputText.width + 20, healthIconInputText.y, null, null, "Flip X", 40);
-		flipIconXCheckBox.checked = false;
-		// if(char.isPlayer) flipIconXCheckBox.checked = !flipIconXCheckBox.checked;
-		flipIconXCheckBox.callback = function() { };
+		flipIconXCheckBox.checked = leHealthIcon.data.flipX;
+		flipIconXCheckBox.callback = function()
+		{
+			leHealthIcon.data.flipX = flipIconXCheckBox.checked;
+			leHealthIcon.updateFlxAnimation({anim: leHealthIcon.animation.name, flipX: flipIconXCheckBox.checked});
+			leHealthIcon.updateHitboxSpecial();
+		};
 
 		var reloadImage:FlxButton = new FlxButton(flipIconXCheckBox.x + flipIconXCheckBox.width + 10, 30, "Reload Image", function()
 		{
 			leHealthIcon.changeIcon(healthIconInputText.text);
 			char.healthIcon = healthIconInputText.text;
 			updatePresence();
+			scaleIconStepper.value = leHealthIcon.data.scale;
+			positionIconXStepper.value = leHealthIcon.data.offsets[0];
+			positionIconYStepper.value = leHealthIcon.data.offsets[1];
+			beatIntensityStepper.value = leHealthIcon.data.bobInsetity;
+			flipIconXCheckBox.checked = leHealthIcon.data.flipX;
+			noAntialiasingIconCheckBox.checked = leHealthIcon.data.no_antialiasing;
 		});
 
 		noAntialiasingIconCheckBox = new FlxUICheckBox(flipIconXCheckBox.x, flipIconXCheckBox.y + 30, null, null, "No Antialiasing", 80);
-		noAntialiasingIconCheckBox.checked = !leHealthIcon.antialiasing;
-		// noAntialiasingIconCheckBox.callback = function() { leHealthIcon.antialiasing = !noAntialiasingIconCheckBox.checked};
-		var saveCharacterButton:FlxButton = new FlxButton(reloadImage.x + reloadImage.width + 5, reloadImage.y, "Save Icon", () ->
+		noAntialiasingIconCheckBox.checked = leHealthIcon.data.no_antialiasing;
+		noAntialiasingIconCheckBox.callback = function()
 		{
+			leHealthIcon.data.no_antialiasing = noAntialiasingIconCheckBox.checked;
+			leHealthIcon.antialiasing = !noAntialiasingIconCheckBox.checked;
+		};
+
+		var saveIconButton:FlxButton = new FlxButton(reloadImage.x + reloadImage.width + 5, reloadImage.y, "Save Icon", () ->
+		{
+			saveIconData();
 			colorPicker.defaultColor = char.healthColor;
 		});
 
-		var decideIconColor:FlxButton = new FlxButton(saveCharacterButton.x, saveCharacterButton.y + saveCharacterButton.height + 10, "Get Icon Color",
-			function()
-			{
-				var coolColor = CoolUtil.colorFromFlxSprite(leHealthIcon);
-				char.healthColor = coolColor;
-				// char.healthColorArray[0] = coolColor.red;
-				// char.healthColorArray[1] = coolColor.green;
-				// char.healthColorArray[2] = coolColor.blue;
-
-				// healthColorStepperR.value = coolColor.red;
-				// healthColorStepperG.value = coolColor.green;
-				// healthColorStepperB.value = coolColor.blue;
-				// getEvent(FlxUINumericStepper.CHANGE_EVENT, healthColorStepperR, null);
-				// getEvent(FlxUINumericStepper.CHANGE_EVENT, healthColorStepperG, null);
-				// getEvent(FlxUINumericStepper.CHANGE_EVENT, healthColorStepperB, null);
-				resetHealthBarColor();
-			});
-
-		// healthColorStepperR = new FlxUINumericStepper(singDurationStepper.x, saveCharacterButton.y, 20, char.healthColorArray[0], 0, 255, 0);
-		// healthColorStepperG = new FlxUINumericStepper(singDurationStepper.x + 65, saveCharacterButton.y, 20, char.healthColorArray[1], 0, 255, 0);
-		// healthColorStepperB = new FlxUINumericStepper(singDurationStepper.x + 130, saveCharacterButton.y, 20, char.healthColorArray[2], 0, 255, 0);
+		var decideIconColor:FlxButton = new FlxButton(saveIconButton.x, saveIconButton.y + saveIconButton.height + 10, "Get Icon Color", function()
+		{
+			var coolColor = CoolUtil.colorFromFlxSprite(leHealthIcon);
+			char.healthColor = coolColor;
+			resetHealthBarColor();
+		});
 
 		tab_group.add(new FlxStaticText(15, healthIconInputText.y - 18, 0, 'Health icon file:'));
 		tab_group.add(new FlxStaticText(15, scaleIconStepper.y - 18, 0, 'Scale:'));
-		// tab_group.add(new FlxStaticText(positionXStepper.x, positionXStepper.y - 18, 0, 'Character X/Y:'));
-		// tab_group.add(new FlxStaticText(positionCameraXStepper.x, positionCameraXStepper.y - 18, 0, 'Camera X/Y:'));
-		// tab_group.add(new FlxStaticText(healthColorStepperR.x, healthColorStepperR.y - 18, 0, 'Health bar R/G/B:'));
+		tab_group.add(new FlxStaticText(positionIconXStepper.x, positionIconXStepper.y - 18, 0, 'Offsets X/Y:'));
+		tab_group.add(new FlxStaticText(beatIntensityStepper.x, beatIntensityStepper.y - 18, 0, 'Beat Intensity:'));
 		tab_group.add(reloadImage);
 		tab_group.add(decideIconColor);
 		tab_group.add(healthIconInputText);
 		tab_group.add(scaleIconStepper);
+		tab_group.add(positionIconXStepper);
+		tab_group.add(positionIconYStepper);
+		tab_group.add(beatIntensityStepper);
 		tab_group.add(flipIconXCheckBox);
 		tab_group.add(noAntialiasingIconCheckBox);
-		// tab_group.add(positionXStepper);
-		// tab_group.add(positionYStepper);
-		// tab_group.add(healthColorStepperR);
-		// tab_group.add(healthColorStepperG);
-		// tab_group.add(healthColorStepperB);
-		tab_group.add(saveCharacterButton);
+		tab_group.add(saveIconButton);
 		tab_group.add(colorPicker);
-		// add(colorPicker);
+
 		UI_characterbox.addGroup(tab_group);
 		return tab_group;
+	}
+
+	function saveIconData()
+	{
+		leHealthIcon.data.scale = scaleIconStepper.value;
+		leHealthIcon.data.offsets[0] = positionIconXStepper.value;
+		leHealthIcon.data.offsets[1] = positionIconYStepper.value;
+		leHealthIcon.data.flipX = flipIconXCheckBox.checked;
+		leHealthIcon.data.no_antialiasing = noAntialiasingIconCheckBox.checked;
+
+		leHealthIcon.scale.set(leHealthIcon.data.scale, leHealthIcon.data.scale);
+		leHealthIcon.antialiasing = !leHealthIcon.data.no_antialiasing;
+		leHealthIcon.updateHitboxSpecial();
+
+		var iconData:Dynamic = {};
+		var animsArray:Array<Dynamic> = [];
+
+		for (a in leHealthIcon.data.animations)
+		{
+			if (a.anim == "idle")
+			{
+				var animObj:Dynamic = {
+					anim: a.anim,
+					fps: a.fps != null ? a.fps : 24,
+					loop: null
+				};
+				if (a.flipX == true)
+					animObj.flipX = true;
+				if (a.flipY == true)
+					animObj.flipY = true;
+				if (a.offsets != null && (a.offsets[0] != 0 || a.offsets[1] != 0))
+					animObj.offsets = a.offsets;
+				animsArray.push(animObj);
+				break;
+			}
+		}
+
+		for (a in leHealthIcon.data.animations)
+		{
+			if (a.anim == "lose")
+			{
+				var animObj:Dynamic = {
+					anim: a.anim,
+					fps: a.fps != null ? a.fps : 24,
+					loop: null
+				};
+				if (a.flipX == true)
+					animObj.flipX = true;
+				if (a.flipY == true)
+					animObj.flipY = true;
+				if (a.offsets != null && (a.offsets[0] != 0 || a.offsets[1] != 0))
+					animObj.offsets = a.offsets;
+				animsArray.push(animObj);
+				break;
+			}
+		}
+
+		for (a in leHealthIcon.data.animations)
+		{
+			if (a.anim != "idle" && a.anim != "lose")
+			{
+				var animObj:Dynamic = {
+					anim: a.anim,
+					fps: a.fps != null ? a.fps : 24,
+					loop: null
+				};
+				if (a.flipX == true)
+					animObj.flipX = true;
+				if (a.flipY == true)
+					animObj.flipY = true;
+				if (a.offsets != null && (a.offsets[0] != 0 || a.offsets[1] != 0))
+					animObj.offsets = a.offsets;
+				animsArray.push(animObj);
+			}
+		}
+
+		iconData.animations = animsArray;
+
+		var triggersArray:Array<Dynamic> = [];
+		for (t in leHealthIcon.data.triggers)
+		{
+			triggersArray.push({
+				name: t.name,
+				indices: t.indices
+			});
+		}
+		iconData.triggers = triggersArray;
+
+		var props:Dynamic = {};
+
+		props.image = leHealthIcon.char;
+		props.scale = leHealthIcon.data.scale;
+
+		if (leHealthIcon.data.no_antialiasing == true)
+			props.no_antialiasing = true;
+
+		if (leHealthIcon.data.offsets[0] != 0 || leHealthIcon.data.offsets[1] != 0)
+			props.offsets = leHealthIcon.data.offsets;
+
+		if (leHealthIcon.data.flipX == true)
+			props.flipX = true;
+
+		if (leHealthIcon.data.flipY == true)
+			props.flipY = true;
+
+		if (leHealthIcon.data.bobInsetity != 1.2)
+			props.bobIntensity = leHealthIcon.data.bobInsetity;
+
+		if (leHealthIcon.data.offsetsPointScale[0] != 0 || leHealthIcon.data.offsetsPointScale[1] != 0)
+			props.offsetsPointScale = leHealthIcon.data.offsetsPointScale;
+
+		if (leHealthIcon.data.shader != null && leHealthIcon.data.shader.length > 0)
+			props.shader = leHealthIcon.data.shader;
+
+		if (leHealthIcon.data.bobInsetity != 1.2)
+			props.bobIntensity = leHealthIcon.data.bobInsetity;
+
+		iconData.properties = props;
+
+		var jsonString:String = Json.stringify(iconData, "\t");
+
+		var savePath = FileUtil.getPathFromCurrentRoot(["characters", "icons", leHealthIcon.char + '.json']);
+
+		FileUtil.browseForSaveFile([FileUtil.FILE_FILTER_JSON], function(path)
+		{
+			#if sys
+			sys.io.File.saveContent(path, jsonString);
+			#end
+			FlxG.log.notice('Icon "${leHealthIcon.char}" saved successfully!');
+		}, function()
+		{
+			FlxG.log.error("Failed to save icon file");
+		}, savePath, 'Save Icon "${leHealthIcon.char}"');
 	}
 
 	var imageInputText:FlxUIInputText;
@@ -1349,6 +1494,44 @@ class CharacterEditorState extends MusicBeatUIState
 					char.gameoverProperties.bpm = characterDeathMusicBPM.value;
 				}
 			}
+			else if (sender == scaleIconStepper)
+			{
+				leHealthIcon.data.scale = scaleIconStepper.value;
+				leHealthIcon.scale.set(leHealthIcon.data.scale, leHealthIcon.data.scale);
+				leHealthIcon.updateHitboxSpecial();
+			}
+			else if (sender == positionIconXStepper)
+			{
+				leHealthIcon.data.offsets[0] = positionIconXStepper.value;
+				leHealthIcon.updateHitboxSpecial();
+			}
+			else if (sender == positionIconYStepper)
+			{
+				leHealthIcon.data.offsets[1] = positionIconYStepper.value;
+				leHealthIcon.updateHitboxSpecial();
+			}
+			else if (sender == flipIconXCheckBox)
+			{
+				leHealthIcon.data.flipX = flipIconXCheckBox.checked;
+				leHealthIcon.updateFlxAnimation({anim: leHealthIcon.animation.name, flipX: flipIconXCheckBox.checked});
+			}
+			else if (sender == noAntialiasingIconCheckBox)
+			{
+				leHealthIcon.data.no_antialiasing = noAntialiasingIconCheckBox.checked;
+				leHealthIcon.antialiasing = !noAntialiasingIconCheckBox.checked;
+			}
+			else if (sender == beatIntensityStepper)
+			{
+				var newValue = beatIntensityStepper.value;
+				if (newValue < 1.0)
+					newValue = 1.0;
+				if (newValue > 2.0)
+					newValue = 2.0;
+
+				beatIntensityStepper.value = newValue;
+				leHealthIcon.data.bobInsetity = newValue;
+			}
+
 			/* else if(sender == healthColorStepperR){
 					char.healthColorArray[0] = Math.round(healthColorStepperR.value);
 					healthBar.color = FlxColor.fromRGB(char.healthColorArray[0], char.healthColorArray[1], char.healthColorArray[2]);
@@ -1562,6 +1745,16 @@ class CharacterEditorState extends MusicBeatUIState
 		characterDeathMusicBPM.value = char.gameoverProperties?.bpm ?? 100;
 		reloadAnimationDropDown();
 		scaleStepper.value = char.jsonScale;
+		if (leHealthIcon != null)
+		{
+			scaleIconStepper.value = leHealthIcon.data.scale;
+			positionIconXStepper.value = leHealthIcon.data.offsets[0];
+			positionIconYStepper.value = leHealthIcon.data.offsets[1];
+			beatIntensityStepper.value = leHealthIcon.data.bobInsetity;
+			flipIconXCheckBox.checked = leHealthIcon.data.flipX;
+			noAntialiasingIconCheckBox.checked = leHealthIcon.data.no_antialiasing;
+		}
+
 		// reloadCharacterImage(char.imageFile);
 		updatePresence();
 		// animationInputText.text =

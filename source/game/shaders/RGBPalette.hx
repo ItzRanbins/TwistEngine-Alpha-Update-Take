@@ -170,7 +170,7 @@ class RGBPaletteShader extends FlxShader
 
 		vec3 applyRGBEffect(vec3 color)
 		{
-			return mix(color, min(color.r * r + color.g * g + color.b * b, vec3(1.0)), mult);
+			return mix(color, min(color.r * r + color.g * g + color.b * b + color.r * color.g * color.b, vec3(1.0)), mult);
 		}
 		vec4 applyRGBEffect(vec4 color)
 		{

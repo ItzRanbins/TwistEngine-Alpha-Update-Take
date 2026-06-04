@@ -183,7 +183,13 @@ typedef StoryMenuData =
 	?hide:Bool,
 	?firstTimeBlocked:Bool,
 	?hiddenUntilUnlocked:Bool,
-	?weekBefore:String
+	?weekBefore:String,
+	?bgColor:String,
+	?bgGradientColor:Array<String>,
+	?characterColors:Array<String>,
+	?boyfriendColor:String,
+	?girlfriendColor:String,
+	?dadColor:String
 }
 
 typedef WeekStruct =

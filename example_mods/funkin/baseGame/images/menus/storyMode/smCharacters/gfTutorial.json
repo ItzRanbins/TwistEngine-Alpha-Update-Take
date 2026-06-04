@@ -1,0 +1,12 @@
+{
+
+	"image": "Menu_GF",
+	"position": [
+		450,
+		150
+	],
+	"scale": 0.5,
+	"idle_anim": "GF Dancing Beat",
+	"confirm_anim": "GF Cheer",
+	"antialiasing": true
+}

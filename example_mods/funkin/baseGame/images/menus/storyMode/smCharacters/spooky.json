@@ -2,9 +2,9 @@
 	"idle_anim": "M Spooky Kids Idle",
 	"image": "Menu_Spooky_Kids",
 	"position": [
-		0,
+		80,
 		-80
 	],
-	"scale": 1,
+	"scale": 1.1,
 	"antialiasing": true
 }

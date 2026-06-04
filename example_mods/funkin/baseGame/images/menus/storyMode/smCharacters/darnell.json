@@ -1,9 +1,9 @@
 {
 	"idle_anim": "idle",
 	"image": "darnell",
-	"position": [-20, -90],
+	"position": [60, -90],
 	"flipX": false,
 	"antialiasing": true,
-	"scale": 1,
+	"scale": 1.2,
 	"confirm_anim": "idle"
 }

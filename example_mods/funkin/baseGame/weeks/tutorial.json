@@ -15,11 +15,21 @@
 
 	"storyMenu": {
 		"title": "tutorial",
-		"description": "Learning how to play",
+		"description": "Teaching Time",
+
+		"characterColors": [
+			"#E65580",
+			"#E65580"
+		],
+
+		"bgGradientColor": [
+			"#862934",
+			"#57182D"
+		],
+
 		"character": [
-			"dad",
-			"bf",
-			"gf"
+			"bfTutorial",
+			"gfTutorial"
 		],
 		"bg": "stage",
 		"weekBefore": "tutorial",

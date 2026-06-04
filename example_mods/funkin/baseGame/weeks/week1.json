@@ -1,7 +1,7 @@
 {
 	"isTwist": true,
 	"hideInFreeplay": false,
-	"difficulties": "easy, normal, hard",
+	"difficulties": "easy, normal, hard, erect, nightmare",
 
 	"songs": [
 		{
@@ -29,7 +29,20 @@
 
 	"storyMenu": {
 		"title": "week1",
-		"description": "Face off against the ex-rockstar father!",
+		"description": "Daddy Dearest",
+		"weekMusicTheme": "storyModeThemes/week1",
+
+		"characterColors": [
+			"#CEAAFF",
+			"#CEAAFF",
+			"#CEAAFF"
+		],
+
+		"bgGradientColor": [
+			"#AA49D4",
+			"#7836AF"
+		],
+
 		"character": [
 			"dad",
 			"bf",

@@ -1,7 +1,7 @@
 {
 	"isTwist": true,
 	"hideInFreeplay": false,
-	"difficulties": "easy, normal, hard",
+	"difficulties": "easy, normal, hard, erect, nightmare",
 
 	"songs": [
 		{
@@ -29,7 +29,20 @@
 
 	"storyMenu": {
 		"title": "week4",
-		"description": "Don't mess with the mother of pop!",
+		"description": "Mommy Must MURDER",
+		"weekMusicTheme": "storyModeThemes/week4",
+
+		"characterColors": [
+			"#FB3E83",
+			"#FB3E83",
+			"#FB3E83"
+		],
+
+		"bgGradientColor": [
+			"#D96169",
+			"#FE6AB4"
+		],
+
 		"character": [
 			"mom",
 			"bf",

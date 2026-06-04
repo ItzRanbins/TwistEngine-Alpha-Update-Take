@@ -2,9 +2,9 @@
 	"idle_anim": "M Tankman Idle",
 	"image": "Menu_Tankman",
 	"position": [
-		0,
+		50,
 		-95
 	],
-	"scale": 1,
+	"scale": 1.1,
 	"antialiasing": true
 }

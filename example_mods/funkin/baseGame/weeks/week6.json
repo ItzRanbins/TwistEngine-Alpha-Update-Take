@@ -1,7 +1,7 @@
 {
 	"isTwist": true,
 	"hideInFreeplay": false,
-	"difficulties": "easy, normal, hard",
+	"difficulties": "easy, normal, hard, erect, nightmare",
 
 	"songs": [
 		{
@@ -29,7 +29,20 @@
 
 	"storyMenu": {
 		"title": "week6",
-		"description": "Trapped in an old dating sim game.",
+		"description": "Hating Simulator [Feat. Moawling]",
+		"weekMusicTheme": "storyModeThemes/week6",
+
+		"characterColors": [
+			"#FF8D59",
+			"#FF8D59",
+			"#FF8D59"
+		],
+
+		"bgGradientColor": [
+			"#e49c6a",
+			"#dc7e4a"
+		],
+
 		"character": [
 			"senpai",
 			"bf_week6",

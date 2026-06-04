@@ -36,7 +36,20 @@
 
 	"storyMenu": {
 		"title": "weekend1",
-		"description": "Settling old scores on the streets of Philly.",
+		"description": "Due Debts",
+		"weekMusicTheme": "storyModeThemes/weekend1",
+
+		"characterColors": [
+			"#996EFF",
+			"#996EFF",
+			"#996EFF"
+		],
+
+		"bgGradientColor": [
+			"#443886",
+			"#300E47"
+		],
+
 		"character": [
 			"darnell",
 			"pico-player",

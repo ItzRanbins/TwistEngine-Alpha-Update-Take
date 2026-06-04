@@ -140,9 +140,9 @@ class PauseSubState extends MusicBeatSubstate
 			}
 			// WeekData.loadTheFirstEnabledMod();
 			playstate.cancelMusicFadeTween();
-			// if (PlayState.isStoryMode)
-			// 	MusicBeatState.switchState(new StoryMenuState());
-			// else
+			if (PlayState.isStoryMode)
+				MusicBeatState.switchState(new StoryMenuState());
+			else
 				MusicBeatState.switchState(#if EDITORS_ALLOWED SongsState.inDebugFreeplay ? new SongsState() : #end new FreeplayState());
 			PlayState.chartingMode = false;
 		}

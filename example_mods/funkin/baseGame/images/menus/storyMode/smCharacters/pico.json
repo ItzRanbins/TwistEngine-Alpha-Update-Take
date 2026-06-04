@@ -2,9 +2,9 @@
 	"idle_anim": "M Pico Idle",
 	"image": "Menu_Pico",
 	"position": [
-		0,
+		50,
 		-120
 	],
-	"scale": 1,
+	"scale": 1.15,
 	"antialiasing": true
 }

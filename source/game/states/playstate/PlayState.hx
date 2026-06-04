@@ -34,6 +34,7 @@ import game.states.substates.GameOverSubstate;
 import game.states.substates.PauseSubState;
 import game.states.substates.pauses.*;
 import game.states.FreeplayState;
+import game.backend.data.jsons.WeekData;
 #if TOUCH_CONTROLS
 import game.mobile.objects.MobileHitbox.MobileHint;
 import game.mobile.objects.MobileHitbox.HintStatus;
@@ -3042,6 +3043,7 @@ class PlayState extends MusicBeatState {
 
 	public var transitioning = false;
 	public var seenResults = false;
+
 	public function endSong():Void
 	{
 		#if TOUCH_CONTROLS
@@ -3049,19 +3051,19 @@ class PlayState extends MusicBeatState {
 		#end
 
 		/*
-		// Should kill you if you tried to cheat
-		if (!startingSong){
-			notes.forEach(function(daNote:Note){
-				if (daNote.strumTime < songLength - Conductor.safeZoneOffset)
-					health -= 0.05 * healthLoss;
-			});
-			for (daNote in unspawnNotes)
-				if (daNote.strumTime < songLength - Conductor.safeZoneOffset)
-					health -= 0.05 * healthLoss;
+			// Should kill you if you tried to cheat
+			if (!startingSong){
+				notes.forEach(function(daNote:Note){
+					if (daNote.strumTime < songLength - Conductor.safeZoneOffset)
+						health -= 0.05 * healthLoss;
+				});
+				for (daNote in unspawnNotes)
+					if (daNote.strumTime < songLength - Conductor.safeZoneOffset)
+						health -= 0.05 * healthLoss;
 
-			if (doDeathCheck())	return;
-		}
-		*/
+				if (doDeathCheck())	return;
+			}
+		 */
 
 		// merTxt.visible = false;
 		canPause = false;
@@ -3100,7 +3102,8 @@ class PlayState extends MusicBeatState {
 
 			if (botplaySine == 0)
 			{
-				Highscore.save(SONG.song, {score: songScore, misses: songMisses, rating: ratingPercent.getDefault(0)}, Difficulty.getString());
+				Highscore.save(SONG.song, {score: songScore, misses: songMisses, rating: ratingPercent.getDefault(0)},
+					Difficulty.getString(PlayState.storyDifficulty));
 			}
 
 			chartingMode = false; // reset
@@ -3115,14 +3118,17 @@ class PlayState extends MusicBeatState {
 				{
 					// WeekData.loadTheFirstEnabledMod();
 					/*
-					if (!FreeplayState.doFreeplayInst)
-						FlxG.sound.playMusic(Paths.music('freeplaymusic'));
-					else
-						FlxG.sound.playMusic(Paths.music('freakyMenu'));
-					*/
+						if (!FreeplayState.doFreeplayInst)
+							FlxG.sound.playMusic(Paths.music('freeplaymusic'));
+						else
+							FlxG.sound.playMusic(Paths.music('freakyMenu'));
+					 */
 					cancelMusicFadeTween();
-					MusicBeatState.switchState(#if EDITORS_ALLOWED SongsState.inDebugFreeplay ? new SongsState() : #end new FreeplayState());
-					// MusicBeatState.switchState(new StoryMenuState());
+
+					var weekFile:String = WeekData.weeksListOrder[storyWeek].file;
+					Highscore.saveWeek(weekFile, {score: campaignScore, misses: campaignMisses, rating: 1.0}, Difficulty.getString(PlayState.storyDifficulty));
+
+					MusicBeatState.switchState(new StoryMenuState());
 
 					// #if !switch
 					// // if ()
@@ -3140,10 +3146,11 @@ class PlayState extends MusicBeatState {
 				}
 				else
 				{
-					// var difficulty:String = CoolUtil.getDifficultyFilePath();
+					var diffName:String = Difficulty.getString(PlayState.storyDifficulty).toLowerCase();
+					var diffSuffix:String = (diffName == "normal") ? "" : "-" + diffName;
 
 					trace('LOADING NEXT SONG');
-					trace(Paths.formatToSongPath(PlayState.storyPlaylist[0]));
+					trace(Paths.formatToSongPath(PlayState.storyPlaylist[0]) + diffSuffix);
 
 					// FlxTransitionableState.skipNextTransIn = true;
 					// FlxTransitionableState.skipNextTransOut = true;
@@ -3151,7 +3158,8 @@ class PlayState extends MusicBeatState {
 					prevCamFollow = camFollow;
 					prevCamFollowPos = camFollowPos;
 
-					SONG = Song.loadFromJson(PlayState.storyPlaylist[0], PlayState.storyPlaylist[0]);
+					var nextSongJson:String = PlayState.storyPlaylist[0].toLowerCase() + diffSuffix;
+					SONG = Song.loadFromJson(nextSongJson, PlayState.storyPlaylist[0].toLowerCase());
 					songGroup.stop();
 
 					cancelMusicFadeTween();
@@ -3164,13 +3172,13 @@ class PlayState extends MusicBeatState {
 				cancelMusicFadeTween();
 				MusicBeatState.switchState(#if EDITORS_ALLOWED SongsState.inDebugFreeplay ? new SongsState() : #end new FreeplayState());
 				/*
-				if (!FreeplayState.doFreeplayInst){
-					FlxG.sound.playMusic(Paths.music('freeplaymusic'));
-					Conductor.bpm = Json.parse(Paths.getTextFromFile('images/stupidBPMoptions.json')).bpmFreeplay;
-				}
-				else{
-					FlxG.sound.playMusic(Paths.music('freakyMenu'));
-					Conductor.bpm = Json.parse(Paths.getTextFromFile('images/stupidBPMoptions.json')).bpm;
+					if (!FreeplayState.doFreeplayInst){
+						FlxG.sound.playMusic(Paths.music('freeplaymusic'));
+						Conductor.bpm = Json.parse(Paths.getTextFromFile('images/stupidBPMoptions.json')).bpmFreeplay;
+					}
+					else{
+						FlxG.sound.playMusic(Paths.music('freakyMenu'));
+						Conductor.bpm = Json.parse(Paths.getTextFromFile('images/stupidBPMoptions.json')).bpm;
 				}*/
 				// changedDifficulty = false;
 				songGroup.stop();

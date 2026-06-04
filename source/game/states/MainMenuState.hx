@@ -40,6 +40,7 @@ class MainMenuState extends MusicBeatState {
 	{
 		Main.canClearMem = true;
 		persistentUpdate = persistentDraw = true;
+		FlxG.mouse.visible = true;
 
 		final yScroll:Float = Math.max(0.2 - (0.05 * (optionShit.length - 4)), 0.1);
 		final bg:FlxSprite = new FlxSprite(Paths.image('menuBG'));
@@ -182,6 +183,7 @@ class MainMenuState extends MusicBeatState {
 				{
 					FlxG.sound.play(Paths.sound('confirmMenu'));
 					selectedSomethin = true;
+					FlxG.mouse.visible = false;
 
 					if (ClientPrefs.data.flashing)
 						FlxFlicker.flicker(magenta, 1.1, 0.15, false);

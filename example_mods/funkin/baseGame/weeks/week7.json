@@ -1,7 +1,7 @@
 {
 	"isTwist": true,
 	"hideInFreeplay": false,
-	"difficulties": "easy, normal, hard",
+	"difficulties": "easy, normal, hard, erect, nightmare",
 
 	"songs": [
 		{
@@ -29,7 +29,20 @@
 
 	"storyMenu": {
 		"title": "week7",
-		"description": "Ugh! Welcome to the war zone.",
+		"description": "Tankman [Feat. Johnnyutah]",
+		"weekMusicTheme": "storyModeThemes/week7",
+
+		"characterColors": [
+			"#F2A744",
+			"#F2A744",
+			"#F2A744"
+		],
+
+		"bgGradientColor": [
+			"#EEB872",
+			"#BF7849"
+		],
+
 		"character": [
 			"tankman",
 			"bf",

@@ -32,10 +32,31 @@ class IconProperties
 
 	function new(?stuff:Any)
 	{
+		scale = 1.0;
+		bobInsetity = 1.2;
+		offsets = [0, 0];
+		offsetsPointScale = [0, 0];
+		flipX = false;
+		flipY = false;
+		no_antialiasing = false;
+		triggers = [
+			{name: 'lose', indices: [0, 20]},
+			{name: 'idle', indices: [21, 100]}
+		];
+		animations = [
+			{anim: 'lose', fps: 24},
+			{anim: 'idle', fps: 24}
+		];
+
 		if (stuff != null)
+		{
 			for (i in Reflect.fields(stuff))
-				if (Reflect.field(this, i) != null)
-					Reflect.setField(this, i, Reflect.field(stuff, i));
+			{
+				var value = Reflect.field(stuff, i);
+				if (Reflect.field(this, i) != null && value != null)
+					Reflect.setField(this, i, value);
+			}
+		}
 	}
 
 	// Optionals
@@ -262,12 +283,72 @@ class HealthIcon extends FlxSprite
 
 		if (!Assets.exists(path))
 		{
-			path =  AssetsPaths.getPath('characters/icons/default.json');
+			path = AssetsPaths.getPath('characters/icons/default.json');
 			loaded = true;
 			loadedFromDefault = true;
 		}
 
-		return new IconProperties(cast Json.parse(Assets.getText(path)));
+		var rawData:Dynamic = cast Json.parse(Assets.getText(path));
+		var props:IconProperties = new IconProperties();
+
+		if (rawData.properties != null)
+		{
+			props.image = rawData.properties.image ?? char;
+			props.scale = rawData.properties.scale ?? 1.0;
+			props.no_antialiasing = rawData.properties.no_antialiasing ?? false;
+
+			var rawOffsets = rawData.properties.offsets;
+			if (rawOffsets != null && rawOffsets.length >= 2)
+				props.offsets = [Std.parseFloat(rawOffsets[0]), Std.parseFloat(rawOffsets[1])];
+			else
+				props.offsets = [0, 0];
+
+			props.flipX = rawData.properties.flipX ?? false;
+			props.flipY = rawData.properties.flipY ?? false;
+			props.bobInsetity = rawData.properties.bobIntensity ?? 1.2;
+
+			var rawPointScale = rawData.properties.offsetsPointScale;
+			if (rawPointScale != null && rawPointScale.length >= 2)
+				props.offsetsPointScale = [Std.parseFloat(rawPointScale[0]), Std.parseFloat(rawPointScale[1])];
+			else
+				props.offsetsPointScale = [0, 0];
+
+			props.shader = rawData.properties.shader;
+
+			if (rawData.animations != null)
+				props.animations = rawData.animations;
+
+			if (rawData.triggers != null)
+				props.triggers = rawData.triggers;
+		}
+		else
+		{
+			props.image = rawData.image ?? char;
+			props.scale = rawData.scale ?? 1.0;
+			props.no_antialiasing = rawData.no_antialiasing ?? false;
+
+			var rawOffsets = rawData.offsets;
+			if (rawOffsets != null && rawOffsets.length >= 2)
+				props.offsets = [Std.parseFloat(rawOffsets[0]), Std.parseFloat(rawOffsets[1])];
+			else
+				props.offsets = [0, 0];
+
+			props.flipX = rawData.flipX ?? false;
+			props.flipY = rawData.flipY ?? false;
+			props.bobInsetity = rawData.bobIntensity ?? rawData.bobInsetity ?? 1.2;
+
+			var rawPointScale = rawData.offsetsPointScale;
+			if (rawPointScale != null && rawPointScale.length >= 2)
+				props.offsetsPointScale = [Std.parseFloat(rawPointScale[0]), Std.parseFloat(rawPointScale[1])];
+			else
+				props.offsetsPointScale = [0, 0];
+
+			props.shader = rawData.shader;
+			props.animations = rawData.animations ?? props.animations;
+			props.triggers = rawData.triggers ?? props.triggers;
+		}
+
+		return props;
 	}
 
 	public var iconOffsets(default, null):Array<Float> = [0., 0.];
@@ -399,7 +480,7 @@ class HealthIcon extends FlxSprite
 
 	public function updateFlxAnimation(animArray:AnimArrayIcon)
 	{
-		final anim = animation.getByName(animArray.anim);
+		var anim = animation.getByName(animArray.anim);
 		if (anim == null)
 			return;
 
@@ -409,10 +490,12 @@ class HealthIcon extends FlxSprite
 			anim.flipY = !anim.flipY;
 		if (isPlayer)
 			anim.flipX = !anim.flipX;
-		anim.frameRate = animArray.fps;
-		// @:privateAccess
-		// anim.reversed = animArray.reversed == true;
-		/*if (animArray.loopPoint != null)*/ anim.loopPoint = Std.int(animArray.loopPoint);
+
+		if (animArray.fps != null)
+			anim.frameRate = animArray.fps;
+
+		if (animArray.loopPoint != null)
+			anim.loopPoint = Std.int(animArray.loopPoint);
 	}
 
 	public function onBeatScale()
