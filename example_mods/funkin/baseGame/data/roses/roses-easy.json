@@ -1453,7 +1453,7 @@
 		"player3": null,
 		"song": "Roses",
 		"needsVoices": true,
-		"stage": "school",
+		"stage": "schoolPixel",
 		"format": "psych_v1_convert",
 		"speed": 1.2,
 		"bpm": 120

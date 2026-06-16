@@ -28,9 +28,8 @@
 	],
 
 	"storyMenu": {
-		"title": "week7",
+		"weekName": "week7",
 		"description": "Tankman [Feat. Johnnyutah]",
-		"weekMusicTheme": "storyModeThemes/week7",
 
 		"characterColors": [
 			"#F2A744",
@@ -43,14 +42,14 @@
 			"#BF7849"
 		],
 
-		"character": [
+		"weekCharacters": [
 			"tankman",
 			"bf",
 			"gf_week7"
 		],
-		"bg": "tank",
+		"weekBackground": "tank",
 		"weekBefore": "week6",
-		"hide": false,
+		"hideStoryMode": false,
 		"firstTimeBlocked": false,
 		"hiddenUntilUnlocked": false
 	}

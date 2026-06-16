@@ -1,22 +1,22 @@
 function onCreate()
-	makeLuaSprite('treesEvilBG', 'weeb/weebBackTreesEvil', -842, -80)
+	makeLuaSprite('treesEvilBG', 'stages/week6/evil/weebBackTrees', -842, -80)
 	scaleObject('treesEvilBG', 6, 6)
 	setScrollFactor('treesEvilBG', 0.5, 0.5)
 	addLuaSprite('treesEvilBG')
 	setProperty('treesEvilBG.antialiasing', false)
 
-	makeLuaSprite('schoolEvil', 'weeb/weebSchoolEvil', -816, -38)
+	makeLuaSprite('schoolEvil', 'stages/week6/evil/weebSchool', -816, -38)
 	scaleObject('schoolEvil', 6, 6)
 	setScrollFactor('schoolEvil', 0.75, 0.75)
 	addLuaSprite('schoolEvil')
 	setProperty('schoolEvil.antialiasing', false)
 
-	makeLuaSprite('streetEvil', 'weeb/weebStreetEvil', -662, 6)
+	makeLuaSprite('streetEvil', 'stages/week6/evil/weebStreet', -662, 6)
 	scaleObject('streetEvil', 6, 6)
 	addLuaSprite('streetEvil')
 	setProperty('streetEvil.antialiasing', false)
 
-	makeLuaSprite('treesEvil', 'weeb/weebTreesEvil', -662, 6)
+	makeLuaSprite('treesEvil', 'stages/week6/evil/weebTrees', -662, 6)
 	scaleObject('treesEvil', 6, 6)
 	addLuaSprite('treesEvil')
 	setProperty('treesEvil.antialiasing', false)
@@ -61,7 +61,7 @@ end
 local eventInitialized = false
 function onEventPushed(event, value1, value2, strumTime)
     if event == 'Trigger BG Ghouls' and lowQuality == false and eventInitialized == false then
-		makeAnimatedLuaSprite('girlfreaksEvil', 'weeb/bgGhouls', -646, 222)
+		makeAnimatedLuaSprite('girlfreaksEvil', 'stages/week6/evil/bgGhouls', -646, 222)
 		addAnimationByPrefix('girlfreaksEvil', 'anim', 'BG freaks glitch instance', 24, false)
 		scaleObject('girlfreaksEvil', 6, 6)
 		addLuaSprite('girlfreaksEvil')

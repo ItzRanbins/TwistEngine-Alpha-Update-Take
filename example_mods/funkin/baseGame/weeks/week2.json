@@ -28,9 +28,8 @@
 	],
 
 	"storyMenu": {
-		"title": "week2",
+		"weekName": "week2",
 		"description": "Spooky Month",
-		"weekMusicTheme": "storyModeThemes/week2",
 
 		"characterColors": [
 			"#735D8A",
@@ -43,14 +42,14 @@
 			"#0F0D11"
 		],
 
-		"character": [
+		"weekCharacters": [
 			"spooky",
 			"bf",
 			"gf"
 		],
-		"bg": "halloween",
+		"weekBackground": "halloween",
 		"weekBefore": "week1",
-		"hide": false,
+		"hideStoryMode": false,
 		"firstTimeBlocked": false,
 		"hiddenUntilUnlocked": false
 	}

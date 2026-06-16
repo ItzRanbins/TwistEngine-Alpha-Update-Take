@@ -1914,7 +1914,7 @@
 		"player3": null,
 		"song": "Thorns",
 		"needsVoices": true,
-		"stage": "schoolEvil",
+		"stage": "schoolPixelEvil",
 		"format": "psych_v1_convert",
 		"speed": 1.1,
 		"bpm": 190

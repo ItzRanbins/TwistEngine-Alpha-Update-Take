@@ -4455,7 +4455,7 @@
 		"player3": null,
 		"song": "Guns",
 		"needsVoices": true,
-		"stage": "tank",
+		"stage": "tankmanBattlefield",
 		"format": "psych_v1_convert",
 		"speed": 2,
 		"bpm": 185

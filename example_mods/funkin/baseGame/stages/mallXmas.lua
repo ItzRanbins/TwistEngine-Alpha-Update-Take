@@ -1,27 +1,27 @@
 function onCreate()
-	makeLuaSprite('mallBG', 'christmas/bgWalls', -630, -492)
+	makeLuaSprite('mallBG', 'stages/week5/bgWalls', -630, -492)
 	scaleObject('mallBG', 0.8, 0.8)
 	setScrollFactor('mallBG', 0.2, 0.2)
 	addLuaSprite('mallBG')
 
 	if lowQuality == false then
-		makeAnimatedLuaSprite('topBoppers', 'christmas/upperBop', -396, -98)
+		makeAnimatedLuaSprite('topBoppers', 'stages/week5/upperBop', -396, -98)
 		addAnimationByPrefix('topBoppers', 'idle', 'Upper Crowd Bob', 24, false)
 		scaleObject('topBoppers', 0.85, 0.85)
 		setScrollFactor('topBoppers', 0.28, 0.28)
 		addLuaSprite('topBoppers')
 
-		makeLuaSprite('escalators', 'christmas/bgEscalator', -1100, -540)
+		makeLuaSprite('escalators', 'stages/week5/bgEscalator', -1100, -540)
 		scaleObject('escalators', 0.9, 0.9)
 		setScrollFactor('escalators', 0.3, 0.3)
 		addLuaSprite('escalators')
 	end
 
-	makeLuaSprite('christmasTree', 'christmas/christmasTree', 370, -250)
+	makeLuaSprite('christmasTree', 'stages/week5/christmasTree', 370, -250)
 	setScrollFactor('christmasTree', 0.4, 0.4)
 	addLuaSprite('christmasTree')
 
-	makeAnimatedLuaSprite('bottomBoppers', 'christmas/bottomBop', -300, 120)
+	makeAnimatedLuaSprite('bottomBoppers', 'stages/week5/bottomBop', -300, 120)
 	addAnimationByPrefix('bottomBoppers', 'hey', 'Bottom Level Boppers HEY!!', 24, false)
 	addAnimationByPrefix('bottomBoppers', 'idle', 'Bottom Level Boppers Idle', 24, false)
 	addOffset('bottomBoppers', 'hey', -15, 30)
@@ -33,11 +33,11 @@ function onCreate()
 	makeGraphic('snowSolid', 5700, 3000, 'F3F4F5')
 	addLuaSprite('snowSolid')
 
-	makeLuaSprite('snowGround', 'christmas/fgSnow', -1350, 680)
+	makeLuaSprite('snowGround', 'stages/week5/fgSnow', -1350, 680)
 	scaleObject('snowGround', 1.1, 1)
 	addLuaSprite('snowGround')
 
-	makeAnimatedLuaSprite('santa', 'christmas/santa', -840, 150)
+	makeAnimatedLuaSprite('santa', 'stages/week5/santa', -840, 150)
 	addAnimationByPrefix('santa', 'idle', 'santa idle in fear', 24, false)
 	addLuaSprite('santa', true)
 end

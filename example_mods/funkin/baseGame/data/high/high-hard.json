@@ -2788,7 +2788,7 @@
 		"player3": null,
 		"song": "High",
 		"needsVoices": true,
-		"stage": "limo",
+		"stage": "limoRide",
 		"format": "psych_v1_convert",
 		"speed": 2,
 		"bpm": 125

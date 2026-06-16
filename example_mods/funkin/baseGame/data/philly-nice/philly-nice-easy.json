@@ -1392,6 +1392,7 @@
 		],
 		"player2": "pico",
 		"song": "Philly Nice",
+		"stage": "phillyTrain",
 		"needsVoices": true,
 		"bpm": 175,
 		"speed": 1,

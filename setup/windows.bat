@@ -19,5 +19,6 @@ haxelib install hscript --skip-dependencies
 haxelib git hscript-improved https://github.com/Redar13/hscript-improved polymod-scripted-classes --skip-dependencies
 haxelib git linc_luajit https://github.com/superpowers04/linc_luajit --skip-dependencies
 haxelib install hxdiscord_rpc --skip-dependencies
+haxelib install haxeui-core --skip-dependencies
 echo Finished!
 pause

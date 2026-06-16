@@ -5140,7 +5140,7 @@
 		"song": "Guns",
 		"validScore": true,
 		"needsVoices": true,
-		"stage": "tank",
+		"stage": "tankmanBattlefield",
 		"format": "psych_v1_convert",
 		"speed": 2.5,
 		"bpm": 185

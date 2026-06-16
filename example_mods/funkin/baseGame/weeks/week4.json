@@ -28,9 +28,8 @@
 	],
 
 	"storyMenu": {
-		"title": "week4",
+		"weekName": "week4",
 		"description": "Mommy Must MURDER",
-		"weekMusicTheme": "storyModeThemes/week4",
 
 		"characterColors": [
 			"#FB3E83",
@@ -43,14 +42,14 @@
 			"#FE6AB4"
 		],
 
-		"character": [
+		"weekCharacters": [
 			"mom",
 			"bf",
 			"gf"
 		],
-		"bg": "limo",
+		"weekBackground": "limo",
 		"weekBefore": "week3",
-		"hide": false,
+		"hideStoryMode": false,
 		"firstTimeBlocked": false,
 		"hiddenUntilUnlocked": false
 	}

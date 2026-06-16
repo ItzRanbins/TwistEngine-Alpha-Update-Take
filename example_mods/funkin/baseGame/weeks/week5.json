@@ -28,9 +28,8 @@
 	],
 
 	"storyMenu": {
-		"title": "week5",
+		"weekName": "week5",
 		"description": "Red Snow",
-		"weekMusicTheme": "storyModeThemes/week5",
 
 		"characterColors": [
 			"#DEB1FD",
@@ -43,14 +42,14 @@
 			"#B63EFB"
 		],
 
-		"character": [
+		"weekCharacters": [
 			"parents-christmas",
 			"bf_week5",
 			"gf_week5"
 		],
-		"bg": "christmas",
+		"weekBackground": "christmas",
 		"weekBefore": "week4",
-		"hide": false,
+		"hideStoryMode": false,
 		"firstTimeBlocked": false,
 		"hiddenUntilUnlocked": false
 	}

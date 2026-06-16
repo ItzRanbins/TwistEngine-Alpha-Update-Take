@@ -1,30 +1,30 @@
 function onCreate()
 	if lowQuality == false then
-		makeLuaSprite('sky', 'philly/sky', -100, 0)
+		makeLuaSprite('sky', 'stages/week3/sky', -100, 0)
 		setScrollFactor('sky', 0.1, 0.1)
 		addLuaSprite('sky')
 	end
 
-	makeLuaSprite('city', 'philly/city', -255, 45)
+	makeLuaSprite('city', 'stages/week3/city', -255, 45)
 	scaleObject('city', 0.9, 0.9)
 	setScrollFactor('city', 0.3, 0.3)
 	addLuaSprite('city')
 
-	makeLuaSprite('windows', 'philly/window', -255, 45)
+	makeLuaSprite('windows', 'stages/week3/window', -255, 45)
 	scaleObject('windows', 0.9, 0.9)
 	setScrollFactor('windows', 0.3, 0.3)
 	addLuaSprite('windows')
 	setProperty('windows.alpha', 0)
 
 	if lowQuality == false then
-		makeLuaSprite('behindTrain', 'philly/behindTrain', -299, 144)
+		makeLuaSprite('behindTrain', 'stages/week3/behindTrain', -299, 144)
 		addLuaSprite('behindTrain')
 	end
 
-	makeLuaSprite('train', 'philly/train', 2000, 360)
+	makeLuaSprite('train', 'stages/week3/train', 2000, 360)
 	addLuaSprite('train')
 
-	makeLuaSprite('street', 'philly/street', -299, 144)
+	makeLuaSprite('street', 'stages/week3/street', -299, 144)
 	addLuaSprite('street')
 
 	precacheSound('train_passes')
@@ -40,14 +40,14 @@ function onEventPushed(event, value1, value2, strumTime)
 		addLuaSprite('blackenScreen')
 		setProperty('blackenScreen.visible', false)
 
-		makeLuaSprite('windowEvent', 'philly/window', -255, 45)
+		makeLuaSprite('windowEvent', 'stages/week3/window', -255, 45)
 		setGraphicSize('windowEvent', getProperty('windowEvent.width') * 0.9)
 		setScrollFactor('windowEvent', 0.3, 0.3)
 		setObjectOrder('windowEvent', getObjectOrder('blackenScreen') + 1)
 		addLuaSprite('windowEvent')
 		setProperty('windowEvent.visible', false)
 
-		makeLuaSprite('gradient', 'philly/gradient', -400, 225)
+		makeLuaSprite('gradient', 'stages/week3/gradient', -400, 225)
 		setGraphicSize('gradient', 2000, 400)
 		setScrollFactor('gradient', 0, 0.75)
 		setObjectOrder('gradient', getObjectOrder('windowEvent') + 1)
@@ -56,9 +56,9 @@ function onEventPushed(event, value1, value2, strumTime)
 		if flashingLights == false then
 			setProperty('gradient.alpha', 0.7)
 		end
-			
+
 		phillyGlowParticles = {}
-		precacheImage('philly/particle')
+		precacheImage('stages/week3/particle')
 		selectedEventColor = -1
 		windowsEventColors = {
 			0x31A2FD,
@@ -97,7 +97,7 @@ function onEventPushed(event, value1, value2, strumTime)
 end
 
 -- All of this down below is to make the mechanics of the stage work
-selectedColor = -1 
+selectedColor = -1
 windowsColors = {
 	0x31A2FD,
 	0x31FD8C,
@@ -149,7 +149,7 @@ function onBeatHit()
 		setProperty('windows.alpha', 1)
 		setProperty('windows.color', windowsColors[selectedColor])
 	end
-	
+
 	-- Makes the train start moving
 	if curBeat % 8 == 4 and getRandomBool(30) and isTrainMoving == false and trainCooldown > 8 then
 		isTrainMoving = true
@@ -224,7 +224,7 @@ function onEvent(eventName, value1, value2, strumTime)
 					end
 					table.remove(phillyGlowParticles, 1)
 				end
-				
+
 				setProperty('boyfriend.color', 0xFFFFFF)
 				setProperty('dad.color', 0xFFFFFF)
 				setProperty('gf.color', 0xFFFFFF)
@@ -312,7 +312,7 @@ function createParticle(x, y, color)
 	velocity = {x = getRandomFloat(-40, 40), y = getRandomFloat(-175, -250)}
 	acceleration = getRandomFloat(-10, 10)
 
-	makeLuaSprite(particleTag, 'philly/particle', x, y)
+	makeLuaSprite(particleTag, 'stages/week3/particle', x, y)
 	scaleObject(particleTag, scale, scale)
 	setScrollFactor(particleTag, scrollFactor.x, scrollFactor.y)
 	setObjectOrder(particleTag, getObjectOrder('gradient') + 1)

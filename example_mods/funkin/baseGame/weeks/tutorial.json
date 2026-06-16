@@ -27,13 +27,15 @@
 			"#57182D"
 		],
 
-		"character": [
+		"weekCharacters": [
 			"bfTutorial",
 			"gfTutorial"
 		],
-		"bg": "stage",
+
+		"weekName": "tutorial",
+		"weekBackground": "stage",
 		"weekBefore": "tutorial",
-		"hide": false,
+		"hideStoryMode": false,
 		"firstTimeBlocked": false,
 		"hiddenUntilUnlocked": false
 	}

@@ -28,9 +28,8 @@
 	],
 
 	"storyMenu": {
-		"title": "week3",
+		"weekName": "week3",
 		"description": "Pico",
-		"weekMusicTheme": "storyModeThemes/week3",
 
 		"characterColors": [
 			"#D5FF88",
@@ -43,14 +42,14 @@
 			"#1E844C"
 		],
 
-		"character": [
+		"weekCharacters": [
 			"pico",
 			"bf",
 			"gf"
 		],
-		"bg": "philly",
+		"weekBackground": "philly",
 		"weekBefore": "week2",
-		"hide": false,
+		"hideStoryMode": false,
 		"firstTimeBlocked": false,
 		"hiddenUntilUnlocked": false
 	}

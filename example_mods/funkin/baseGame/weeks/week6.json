@@ -28,9 +28,8 @@
 	],
 
 	"storyMenu": {
-		"title": "week6",
+		"weekName": "week6",
 		"description": "Hating Simulator [Feat. Moawling]",
-		"weekMusicTheme": "storyModeThemes/week6",
 
 		"characterColors": [
 			"#FF8D59",
@@ -43,14 +42,15 @@
 			"#dc7e4a"
 		],
 
-		"character": [
+		"weekCharacters": [
 			"senpai",
-			"bf_week6",
-			"gf_week6"
+			"bf",
+			"gf"
 		],
-		"bg": "school",
+
+		"weekBackground": "school",
 		"weekBefore": "week5",
-		"hide": false,
+		"hideStoryMode": false,
 		"firstTimeBlocked": false,
 		"hiddenUntilUnlocked": false
 	}

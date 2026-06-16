@@ -4,7 +4,7 @@ function onCreate()
 	addLuaSprite('solidBG')
 	setProperty('solidBG.color', 0x242336) -- Doing this so that the track color thing works.
 
-	makeAnimatedLuaSprite('mansion', 'spooky/halloween_bg', -200, -100)
+	makeAnimatedLuaSprite('mansion', 'stages/week2/halloween_bg', -200, -100)
 	addAnimationByPrefix('mansion', 'lightning', 'halloweem bg lightning strike', 24, false)
 	addAnimationByPrefix('mansion', 'normal', 'halloweem bg0', 24, false)
 	addLuaSprite('mansion')
@@ -55,7 +55,7 @@ end
 function strikeLightning()
 	lastLightningStrike = curBeat
 	lightningInterval = getRandomInt(8, 24)
-    
+
 	local soundNum = getRandomInt(1, 2)
 	playSound('thunder_'..soundNum)
     if lowQuality == false then
@@ -67,7 +67,7 @@ function strikeLightning()
 	        playAnim(character, 'scared', true)
         end
     end
-    
+
     if cameraZoomOnBeat == true then
 		setProperty('camGame.zoom', getProperty('camGame.zoom') + 0.015)
 		setProperty('camHUD.zoom', getProperty('camHUD.zoom') + 0.03)
@@ -77,7 +77,7 @@ function strikeLightning()
 			doTweenZoom('zoomBackHUD', 'camHUD', 1, 0.5, 'linear')
 		end
 	end
-	
+
 	if flashingLights == true then
 		setProperty('lightningFlash.alpha', 0.4)
 		doTweenAlpha('flashAlphaTween', 'lightningFlash', 0.5, 0.075, 'linear')

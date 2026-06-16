@@ -4,15 +4,15 @@ function onCreate()
 	setScrollFactor('solidBG', 0.2, 0.2)
 	addLuaSprite('solidBG')
 
-    makeLuaSprite('mallEvilBG', 'christmas/evilBG', -400, -500)
+    makeLuaSprite('mallEvilBG', 'stages/week5/evilBG', -400, -500)
     scaleObject('mallEvilBG', 0.8, 0.8)
     setScrollFactor('mallEvilBG', 0.2, 0.2)
 	addLuaSprite('mallEvilBG')
 
-    makeLuaSprite('christmasTreeEvil', 'christmas/evilTree', 300, -300)
+    makeLuaSprite('christmasTreeEvil', 'stages/week5/evilTree', 300, -300)
     setScrollFactor('christmasTreeEvil', 0.2, 0.2)
 	addLuaSprite('christmasTreeEvil')
 
-    makeLuaSprite('snowEvilGround', 'christmas/evilSnow', -500, 700)
+    makeLuaSprite('snowEvilGround', 'stages/week5/evilSnow', -500, 700)
     addLuaSprite('snowEvilGround')
 end

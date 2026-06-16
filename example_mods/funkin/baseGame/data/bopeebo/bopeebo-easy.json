@@ -805,7 +805,7 @@
 		"song": "Bopeebo",
 		"needsVoices": true,
 		"validScore": true,
-		"format": "psych_v1_convert",
+		"stage": "stage",
 		"speed": 1,
 		"bpm": 100
 	}

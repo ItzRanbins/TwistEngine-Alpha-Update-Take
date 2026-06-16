@@ -28,9 +28,8 @@
 	],
 
 	"storyMenu": {
-		"title": "week1",
+		"weekName": "week1",
 		"description": "Daddy Dearest",
-		"weekMusicTheme": "storyModeThemes/week1",
 
 		"characterColors": [
 			"#CEAAFF",
@@ -43,14 +42,14 @@
 			"#7836AF"
 		],
 
-		"character": [
+		"weekCharacters": [
 			"dad",
 			"bf",
 			"gf"
 		],
-		"bg": "stage",
+		"weekBackground": "stage",
 		"weekBefore": "tutorial",
-		"hide": false,
+		"hideStoryMode": false,
 		"firstTimeBlocked": false,
 		"hiddenUntilUnlocked": false
 	}

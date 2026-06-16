@@ -2989,7 +2989,7 @@
 		"player3": null,
 		"song": "Ugh",
 		"needsVoices": true,
-		"stage": "tank",
+		"stage": "tankmanBattlefield",
 		"format": "psych_v1_convert",
 		"speed": 2.3,
 		"bpm": 160
