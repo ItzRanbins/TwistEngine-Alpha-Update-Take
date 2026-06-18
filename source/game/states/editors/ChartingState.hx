@@ -67,6 +67,7 @@ import openfl.utils.Assets as OpenFlAssets;
 import openfl.display3D.textures.RectangleTexture;
 import openfl.display.BitmapData;
 import openfl.geom.Rectangle;
+import openfl.desktop.Clipboard;
 
 typedef LocalSongOption = {
 	label:String,
@@ -141,12 +142,17 @@ class ChartingState extends MusicBeatUIState
 	];
 
 	var UI_box:FlxUITabMenu;
+	var addButton:FlxButton;
+    var removeButton:FlxButton;
+    var moveLeftButton:FlxButton;
+    var moveRightButton:FlxButton;
 
 	var newChartWindow:FlxSpriteGroup;
 	var ncSongInput:FlxUIInputText;
 	var ncBpmStepper:FlxUINumericStepper;
 	var ncErrorText:FlxStaticText;
 	var isNewChartWindowOpen:Bool = false;
+	var eventClipboard:Array<Dynamic> = [];
 
 	public static var goToPlayState:Bool = false;
 	public static var botPlayChartMod:Bool = false;
@@ -570,7 +576,7 @@ class ChartingState extends MusicBeatUIState
 			saveLevel();
 		});
 
-		var newChartBtn:FlxButton = new FlxButton(115, 48, "New Chart", function()
+		var newChartBtn:FlxButton = new FlxButton(115, 48, "New", function()
 		{
 			openNewChartWindow();
 		});
@@ -1257,8 +1263,46 @@ class ChartingState extends MusicBeatUIState
 		value3InputText = new ColorfullInputText(20, 190, 280, "");
 		blockPressWhileTypingOn.push(value3InputText);
 
-		// New event buttons
-		var removeButton:FlxButton = new FlxButton(eventDropDown.x + eventDropDown.width + 10, eventDropDown.y, '-', function(){
+		var targetY:Float = 80;
+
+		function createBtnWithIcon(x:Float, y:Float, iconName:String, onClick:Void->Void):FlxButton
+		{
+			var btnIcon = new FlxButton(x, y, "", onClick);
+			btnIcon.scale.set(0.25, 1.0);
+			btnIcon.width = 20;
+			btnIcon.height = 20;
+			btnIcon.updateHitbox();
+
+			tab_group_event.add(btnIcon);
+
+			var icon = new FlxSprite();
+			icon.loadGraphic(Paths.image('ui/editor/chartEditor/' + iconName));
+
+			icon.antialiasing = false;
+
+			icon.setGraphicSize(12, 12);
+			icon.updateHitbox();
+
+			icon.x = btnIcon.x + (20 - icon.width) / 2;
+			icon.y = btnIcon.y + (20 - icon.height) / 2;
+
+			tab_group_event.add(icon);
+			return btnIcon;
+		}
+
+		addButton = createBtnWithIcon(150, targetY + -30, 'btn_plus', function()
+		{
+			if (curSelectedNote != null)
+			{
+				curSelectedNote[1].push(['', '', '', '']);
+				curEventSelected = Std.int(curSelectedNote[1].length - 1);
+				changeEventSelected(0);
+			}
+		});
+		addButton.color = 0x44FF44;
+
+		removeButton = createBtnWithIcon(175, targetY + -30, 'btn_minus', function()
+		{
 			if (curSelectedNote != null && curSelectedNote[2] == null){ // Is event note
 				if (curSelectedNote[1].length < 2){
 					_song.events.remove(curSelectedNote);
@@ -1277,50 +1321,23 @@ class ChartingState extends MusicBeatUIState
 				updateGrid();
 			}
 		});
-		removeButton.setGraphicSize(removeButton.height, removeButton.height);
-		removeButton.updateHitbox();
-		removeButton.color = FlxColor.RED;
-		removeButton.label.color = FlxColor.WHITE;
-		removeButton.label.size = 12;
-		setAllLabelsOffset(removeButton, -30, 0);
-		tab_group_event.add(removeButton);
+		removeButton.color = 0xFF4444;
 
-		var addButton:FlxButton = new FlxButton(removeButton.x + removeButton.width + 10, removeButton.y, '+', function(){
-			if (curSelectedNote != null && curSelectedNote[2] == null){ // Is event note
-				var eventsGroup:Array<Dynamic> = curSelectedNote[1];
-				eventsGroup.push(['', '', '']);
-
-				changeEventSelected(1);
-				updateGrid();
-			}
-		});
-		addButton.setGraphicSize(removeButton.width, removeButton.height);
-		addButton.updateHitbox();
-		addButton.color = FlxColor.GREEN;
-		addButton.label.color = FlxColor.WHITE;
-		addButton.label.size = 12;
-		setAllLabelsOffset(addButton, -30, 0);
-		tab_group_event.add(addButton);
-
-		var moveLeftButton:FlxButton = new FlxButton(addButton.x + addButton.width + 20, addButton.y, '<', function(){
+		moveLeftButton = createBtnWithIcon(240, targetY + -30, 'btn_left', function()
+		{
 			changeEventSelected(-1);
 		});
-		moveLeftButton.setGraphicSize(addButton.width, addButton.height);
-		moveLeftButton.updateHitbox();
-		moveLeftButton.label.size = 12;
-		setAllLabelsOffset(moveLeftButton, -30, 0);
-		tab_group_event.add(moveLeftButton);
 
-		var moveRightButton:FlxButton = new FlxButton(moveLeftButton.x + moveLeftButton.width + 10, moveLeftButton.y, '>', function(){
+		moveRightButton = createBtnWithIcon(265, targetY + -30, 'btn_right', function()
+		{
 			changeEventSelected(1);
 		});
-		moveRightButton.setGraphicSize(moveLeftButton.width, moveLeftButton.height);
-		moveRightButton.updateHitbox();
-		moveRightButton.label.size = 12;
-		setAllLabelsOffset(moveRightButton, -30, 0);
-		tab_group_event.add(moveRightButton);
 
-		selectedEventText = new FlxStaticText(addButton.x - 100, addButton.y + addButton.height + 6, (moveRightButton.x - addButton.x) + 186,
+		var btnCopy = createBtnWithIcon(215, targetY, 'btn_copy', copySelectedEvents);
+		var btnPaste = createBtnWithIcon(240, targetY, 'btn_paste', pasteSelectedEvents);
+		var btnClear = createBtnWithIcon(265, targetY, 'btn_clear', clearSelectedEventData);
+
+		selectedEventText = new FlxStaticText(addButton.x - 100, addButton.y + -45 + addButton.height + 6, (moveRightButton.x - addButton.x) + 186,
 			'Selected Event: None');
 		selectedEventText.alignment = CENTER;
 		tab_group_event.add(selectedEventText);
@@ -1336,19 +1353,30 @@ class ChartingState extends MusicBeatUIState
 	}
 
 
-	function changeEventSelected(change:Int = 0){
-		if (curSelectedNote != null && curSelectedNote[2] == null){ // Is event note
+	function changeEventSelected(change:Int = 0):Void
+	{
+		if (curSelectedNote != null)
+		{
 			curEventSelected += change;
 			if (curEventSelected < 0)
-				curEventSelected = Std.int(curSelectedNote[1].length) - 1;
-			else if (curEventSelected >= curSelectedNote[1].length)
 				curEventSelected = 0;
-			selectedEventText.text = 'Selected Event: ' + (curEventSelected + 1) + ' / ' + curSelectedNote[1].length;
-		}else{
-			curEventSelected = 0;
+			else if (curEventSelected >= curSelectedNote[1].length)
+				curEventSelected = Std.int(curSelectedNote[1].length - 1);
+
+			updateNoteUI();
+		}
+
+		var eventLength:Int = 0;
+		if (curSelectedNote != null)
+			eventLength = Std.int(curSelectedNote[1].length);
+		if (curSelectedNote != null)
+		{
+			selectedEventText.text = 'Selected Event: ' + (curEventSelected + 1) + ' / ' + eventLength;
+		}
+		else
+		{
 			selectedEventText.text = 'Selected Event: None';
 		}
-		updateNoteUI();
 	}
 
 	function setAllLabelsOffset(button:FlxButton, x:Float, y:Float)
@@ -3876,6 +3904,122 @@ class ChartingState extends MusicBeatUIState
 		isNewChartWindowOpen = false;
 		UI_box.active = true;
 		FlxG.sound.keysAllowed = true;
+	}
+
+	function copySelectedEvents():Void
+	{
+		if (curSelectedNote == null || curSelectedNote.length > 2)
+		{
+			trace("Please select an event on the grid first!");
+			return;
+		}
+
+		var eventsList:Array<Dynamic> = curSelectedNote[1];
+		if (eventsList == null || eventsList.length == 0)
+			return;
+
+		var copyData = {
+			type: "fnf_event_group",
+			events: []
+		};
+
+		for (e in eventsList)
+		{
+			if (e != null)
+			{
+				copyData.events.push({
+					name: e[0] != null ? Std.string(e[0]) : "",
+					v1: e[1] != null ? Std.string(e[1]) : "",
+					v2: e[2] != null ? Std.string(e[2]) : "",
+					v3: e[3] != null ? Std.string(e[3]) : ""
+				});
+			}
+		}
+
+		var jsonStr:String = haxe.Json.stringify(copyData);
+		openfl.desktop.Clipboard.generalClipboard.setData(openfl.desktop.ClipboardFormats.TEXT_FORMAT, jsonStr);
+
+		trace("Copied " + copyData.events.length + " event(s).");
+	}
+
+	function pasteSelectedEvents():Void
+	{
+		if (curSelectedNote == null || curSelectedNote.length > 2)
+		{
+			trace("Please select a target empty event on the grid first!");
+			return;
+		}
+
+		if (!openfl.desktop.Clipboard.generalClipboard.hasFormat(openfl.desktop.ClipboardFormats.TEXT_FORMAT))
+		{
+			trace("Clipboard is empty!");
+			return;
+		}
+
+		var jsonStr:String = openfl.desktop.Clipboard.generalClipboard.getData(openfl.desktop.ClipboardFormats.TEXT_FORMAT);
+
+		try
+		{
+			var copyData = haxe.Json.parse(jsonStr);
+
+			if (copyData != null && copyData.type == "fnf_event_group")
+			{
+				var subEventsToPaste:Array<Dynamic> = [];
+				var parsedEvents:Array<Dynamic> = copyData.events;
+
+				for (e in parsedEvents)
+				{
+					subEventsToPaste.push([e.name, e.v1, e.v2, e.v3]);
+				}
+
+				if (subEventsToPaste.length == 0)
+					return;
+
+				if (flixel.FlxG.stage != null)
+					flixel.FlxG.stage.focus = null;
+
+				curSelectedNote[1] = subEventsToPaste;
+
+				curEventSelected = 0;
+
+				updateGrid();
+				updateNoteUI();
+				changeEventSelected();
+
+				trace("Successfully pasted into the selected event!");
+			}
+		}
+		catch (e)
+		{
+			trace("Error parsing clipboard data: " + e);
+		}
+	}
+
+	function clearSelectedEventData()
+	{
+		if (curSelectedNote != null)
+		{
+			var eventName:String = curSelectedNote[1][curEventSelected][0];
+			var foundDefault:Bool = false;
+
+			for (i in 0...eventStuff.length)
+			{
+				if (eventStuff[i][0] == eventName)
+				{
+					curSelectedNote[1][curEventSelected] = [eventName, '', '', ''];
+					foundDefault = true;
+					break;
+				}
+			}
+			if (!foundDefault)
+			{
+				curSelectedNote[1][curEventSelected] = [eventName, '', '', ''];
+			}
+
+			updateNoteUI();
+			changeEventSelected(0);
+			updateGrid();
+		}
 	}
 }
 
