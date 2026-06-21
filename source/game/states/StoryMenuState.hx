@@ -564,11 +564,13 @@ class StoryMenuState extends MusicBeatState
 		PlayState.storyPlaylist = playlist;
 		PlayState.storyDifficulty = curDifficulty;
 		PlayState.storyWeek = curSelected;
+		Difficulty.copyFrom(currentWeekDifficulties);
 		PlayState.campaignScore = 0;
 		PlayState.campaignMisses = 0;
 
 		var diffName:String = currentWeekDifficulties[curDifficulty].toLowerCase();
 		var diffSuffix:String = (diffName == "normal") ? "" : "-" + diffName;
+
 		for (char in grpWeekCharacters.members)
 		{
 			if (char != null && char.hasConfirmAnimation)

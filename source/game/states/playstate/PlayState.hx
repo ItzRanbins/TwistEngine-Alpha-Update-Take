@@ -171,6 +171,12 @@ class PlayState extends MusicBeatState {
 
 		difficultyList ??= Difficulty.defaultList;
 		Difficulty.list = difficultyList;
+
+		if (isStoryMode != null)
+		{
+			PlayState.isStoryMode = isStoryMode == true;
+		}
+
 		setSong(a);
 		return a;
 	}
@@ -178,17 +184,22 @@ class PlayState extends MusicBeatState {
 	public static function setSong(SONG:Song)
 	{
 		PlayState.SONG = SONG;
-		PlayState.isStoryMode = isStoryMode == true;
+
 		var index:Int = -1;
 		for (i => diff in Difficulty.list)
 		{
-			if (SONG.difficulty.toLowerCase() == diff.toLowerCase())
+			if (SONG.difficulty != null && SONG.difficulty.toLowerCase() == diff.toLowerCase())
 			{
 				index = i;
 				break;
 			}
 		}
-		PlayState.storyDifficulty = index;
+
+		if (!PlayState.isStoryMode && index != -1)
+		{
+			PlayState.storyDifficulty = index;
+		}
+
 		trace(Difficulty.list, SONG.difficulty, PlayState.storyDifficulty);
 	}
 

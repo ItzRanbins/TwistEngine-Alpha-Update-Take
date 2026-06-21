@@ -51,7 +51,7 @@ class PauseBasic extends PauseSubState
 		addText(PlayState.SONG.display);
 
 		if (Difficulty.list != null && Difficulty.list.length > 1)
-			addText(Difficulty.getString().toUpperCase());
+			addText("Difficulty: " + Difficulty.getString().toUpperCase());
 
 		function addByLinesText(txt:String)
 		{
