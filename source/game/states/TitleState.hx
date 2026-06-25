@@ -15,6 +15,9 @@ import flixel.tweens.FlxEase;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import flixel.math.FlxPoint;
+import flixel.math.FlxMath;
+import flixel.addons.display.FlxRuntimeShader;
+import openfl.filters.ShaderFilter;
 import haxe.Json;
 import openfl.Assets;
 import openfl.display.Bitmap;
@@ -38,6 +41,7 @@ typedef TitleData =
 	@:optional var dance_left:Array<Int>;
 	@:optional var dance_right:Array<Int>;
 	@:optional var idle:Bool;
+	@:optional var easterbpm:Float;
 }
 
 class TitleState extends MusicBeatState
@@ -60,13 +64,29 @@ class TitleState extends MusicBeatState
 	var curWacky:Array<String> = [];
 	var wackyImage:FlxSprite;
 
+	var easterBPM:Float = 160;
+	var easterCode:Array<FlxKey> = [
+		FlxKey.LEFT,
+		FlxKey.RIGHT,
+		FlxKey.LEFT,
+		FlxKey.RIGHT,
+		FlxKey.UP,
+		FlxKey.DOWN,
+		FlxKey.UP,
+		FlxKey.DOWN
+	];
+	var easterIndex:Int = 0;
+	var easterTriggered:Bool = false;
+	var easterShader:FlxRuntimeShader;
+	var curHue:Float = 0.0;
+
 	override public function create():Void
 	{
 		Paths.clearStoredMemory();
 		super.create();
 		Paths.clearUnusedMemory();
 
-		if(!initialized)
+		if (!initialized)
 		{
 			ClientPrefs.loadPrefs();
 		}
@@ -77,9 +97,9 @@ class TitleState extends MusicBeatState
 
 		curWacky = FlxG.random.getObject(getIntroTextShit());
 
-		if(!initialized)
+		if (!initialized)
 		{
-			if(FlxG.save.data != null && FlxG.save.data.fullscreen)
+			if (FlxG.save.data != null && FlxG.save.data.fullscreen)
 			{
 				FlxG.fullscreen = FlxG.save.data.fullscreen;
 			}
@@ -105,6 +125,9 @@ class TitleState extends MusicBeatState
 		loadJsonData();
 		Conductor.bpm = musicBPM;
 
+		Paths.music('girlfriendsRingtone');
+		Paths.sound('confirmMenu');
+
 		logoBl = new FlxSprite(logoPosition.x, logoPosition.y);
 		logoBl.frames = Paths.getSparrowAtlas('logoBumpin');
 		logoBl.antialiasing = ClientPrefs.data.globalAntialiasing;
@@ -117,7 +140,10 @@ class TitleState extends MusicBeatState
 		gfDance.antialiasing = ClientPrefs.data.globalAntialiasing;
 
 		gfDance.frames = Paths.getSparrowAtlas(characterImage);
-		if(!useIdle)
+
+		gfDance.animation.addByPrefix('hey', 'gfHey', 24, false);
+
+		if (!useIdle)
 		{
 			gfDance.animation.addByIndices('danceLeft', animationName, danceLeftFrames, "", 24, false);
 			gfDance.animation.addByIndices('danceRight', animationName, danceRightFrames, "", 24, false);
@@ -184,7 +210,6 @@ class TitleState extends MusicBeatState
 	var gfPosition:FlxPoint = FlxPoint.get(512, 40);
 	var logoPosition:FlxPoint = FlxPoint.get(-150, -100);
 	var enterPosition:FlxPoint = FlxPoint.get(100, 576);
-
 	var useIdle:Bool = false;
 	var musicBPM:Float = 102;
 	var danceLeftFrames:Array<Int> = [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29];
@@ -192,10 +217,10 @@ class TitleState extends MusicBeatState
 
 	function loadJsonData()
 	{
-		if(Paths.fileExists('images/gfDanceTitle.json', TEXT))
+		if (Paths.fileExists('data/titleConfig.json', TEXT))
 		{
-			var titleRaw:String = Paths.getTextFromFile('images/gfDanceTitle.json');
-			if(titleRaw != null && titleRaw.length > 0)
+			var titleRaw:String = Paths.getTextFromFile('data/titleConfig.json');
+			if (titleRaw != null && titleRaw.length > 0)
 			{
 				try
 				{
@@ -205,24 +230,29 @@ class TitleState extends MusicBeatState
 					enterPosition.set(titleJSON.startx, titleJSON.starty);
 					musicBPM = titleJSON.bpm;
 
-					if(titleJSON.animation != null && titleJSON.animation.length > 0) animationName = titleJSON.animation;
-					if(titleJSON.dance_left != null && titleJSON.dance_left.length > 0) danceLeftFrames = titleJSON.dance_left;
-					if(titleJSON.dance_right != null && titleJSON.dance_right.length > 0) danceRightFrames = titleJSON.dance_right;
-					useIdle = (titleJSON.idle == true);
+					if (titleJSON.easterbpm != null)
+						easterBPM = titleJSON.easterbpm;
 
+					if (titleJSON.animation != null && titleJSON.animation.length > 0)
+						animationName = titleJSON.animation;
+					if (titleJSON.dance_left != null && titleJSON.dance_left.length > 0)
+						danceLeftFrames = titleJSON.dance_left;
+					if (titleJSON.dance_right != null && titleJSON.dance_right.length > 0)
+						danceRightFrames = titleJSON.dance_right;
+					useIdle = (titleJSON.idle == true);
 				}
-				catch(e:haxe.Exception)
+				catch (e:haxe.Exception)
 				{
 					trace('[WARN] Title JSON might broken, ignoring issue...\n${e.details()}');
 				}
 			}
-			else trace('[WARN] No Title JSON detected, using default values.');
+			else
+				trace('[WARN] No Title JSON detected, using default values.');
 		}
 	}
 
 	function getIntroTextShit():Array<Array<String>>
 	{
-
 		var fullText:String = Assets.getText(Paths.txt('introText'));
 		var firstArray:Array<String> = fullText.split('\n');
 		var swagGoodArray:Array<Array<String>> = [];
@@ -243,8 +273,9 @@ class TitleState extends MusicBeatState
 		if (FlxG.sound.music != null)
 			Conductor.songPosition = FlxG.sound.music.time;
 
-		var pressedEnter:Bool = FlxG.keys.justPressed.ENTER || controls.ACCEPT;
+		FlxG.camera.zoom = FlxMath.lerp(1, FlxG.camera.zoom, FlxMath.bound(1 - (elapsed * 3.125), 0, 1));
 
+		var pressedEnter:Bool = FlxG.keys.justPressed.ENTER || controls.ACCEPT;
 		#if mobile
 		for (touch in FlxG.touches.list)
 		{
@@ -267,9 +298,11 @@ class TitleState extends MusicBeatState
 			#end
 		}
 
-		if (newTitle) {
+		if (newTitle)
+		{
 			titleTimer += FlxMath.bound(elapsed, 0, 1);
-			if (titleTimer > 2) titleTimer -= 2;
+			if (titleTimer > 2)
+				titleTimer -= 2;
 		}
 
 		if (initialized && !transitioning && skippedIntro)
@@ -279,26 +312,54 @@ class TitleState extends MusicBeatState
 				var timer:Float = titleTimer;
 				if (timer >= 1)
 					timer = (-timer) + 2;
-
 				timer = FlxEase.quadInOut(timer);
 
 				titleText.color = FlxColor.interpolate(titleTextColors[0], titleTextColors[1], timer);
 				titleText.alpha = FlxMath.lerp(titleTextAlphas[0], titleTextAlphas[1], timer);
 			}
 
-			if(pressedEnter)
+			if (pressedEnter)
 			{
 				titleText.color = FlxColor.WHITE;
 				titleText.alpha = 1;
+				if (titleText != null)
+					titleText.animation.play('press');
 
-				if(titleText != null) titleText.animation.play('press');
+				FlxG.camera.stopFX();
 				FlxG.camera.flash(ClientPrefs.data.flashing ? FlxColor.WHITE : 0x4CFFFFFF, 1);
+
+				if (gfDance != null)
+					gfDance.animation.play('hey', true);
+
+				if (easterTriggered)
+				{
+					if (FlxG.sound.music != null)
+						FlxG.sound.music.fadeOut(1, 0);
+
+					FlxTween.tween(this, {curHue: 0.0}, 1, {
+						ease: FlxEase.expoOut,
+						onUpdate: function(twn:FlxTween)
+						{
+							if (easterShader != null)
+							{
+								easterShader.setFloat('hue', curHue);
+							}
+						},
+						onComplete: function(twn:FlxTween)
+						{
+							FlxG.camera.setFilters([]);
+						}
+					});
+				}
+
 				FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
 
 				transitioning = true;
-
 				new FlxTimer().start(1, function(tmr:FlxTimer)
 				{
+					if (easterTriggered && FlxG.sound.music != null)
+						FlxG.sound.music.stop();
+
 					MusicBeatState.switchState(new MainMenuState());
 					closedState = true;
 				});
@@ -308,6 +369,30 @@ class TitleState extends MusicBeatState
 		if (initialized && pressedEnter && !skippedIntro)
 		{
 			skipIntro();
+		}
+
+		if (skippedIntro && !easterTriggered && FlxG.keys.justPressed.ANY)
+		{
+			var keyPressed = FlxG.keys.firstJustPressed();
+			if (keyPressed != FlxKey.NONE)
+			{
+				if (keyPressed == easterCode[easterIndex])
+				{
+					easterIndex++;
+					if (easterIndex >= easterCode.length)
+					{
+						ringtoneEaster();
+					}
+				}
+				else
+				{
+					easterIndex = 0;
+					if (keyPressed == easterCode[0])
+					{
+						easterIndex = 1;
+					}
+				}
+			}
 		}
 
 		super.update(elapsed);
@@ -320,7 +405,7 @@ class TitleState extends MusicBeatState
 			var money:Alphabet = new Alphabet(0, 0, textArray[i], true);
 			money.screenCenter(X);
 			money.y += (i * 60) + 200 + offset;
-			if(credGroup != null && textGroup != null)
+			if (credGroup != null && textGroup != null)
 			{
 				credGroup.add(money);
 				textGroup.add(money);
@@ -330,7 +415,8 @@ class TitleState extends MusicBeatState
 
 	function addMoreText(text:String, ?offset:Float = 0)
 	{
-		if(textGroup != null && credGroup != null) {
+		if (textGroup != null && credGroup != null)
+		{
 			var coolText:Alphabet = new Alphabet(0, 0, text, true);
 			coolText.screenCenter(X);
 			coolText.y += (textGroup.length * 60) + 200 + offset;
@@ -349,29 +435,47 @@ class TitleState extends MusicBeatState
 	}
 
 	private var sickBeats:Int = 0;
+
 	public static var closedState:Bool = false;
 
 	override function beatHit()
 	{
 		super.beatHit();
 
-		if(logoBl != null)
+		if (FlxG.camera.zoom < 1.35 && curBeat % 1 == 0)
+		{
+			FlxG.camera.zoom += 0.015;
+		}
+
+		if (logoBl != null)
 			logoBl.animation.play('bump', true);
 
-		if(gfDance != null)
+		if (gfDance != null && !transitioning)
 		{
 			danceLeft = !danceLeft;
-			if(!useIdle)
+			if (!useIdle)
 			{
 				if (danceLeft)
 					gfDance.animation.play('danceRight');
 				else
 					gfDance.animation.play('danceLeft');
 			}
-			else if(curBeat % 2 == 0) gfDance.animation.play('idle', true);
+			else if (curBeat % 2 == 0)
+				gfDance.animation.play('idle', true);
 		}
 
-		if(!closedState)
+		if (easterTriggered && curBeat % 2 == 0 && !transitioning)
+		{
+			curHue += 0.15;
+			if (curHue > 1.0)
+				curHue = 0.0;
+			if (easterShader != null)
+			{
+				easterShader.setFloat('hue', curHue);
+			}
+		}
+
+		if (!closedState)
 		{
 			sickBeats++;
 			switch (sickBeats)
@@ -421,8 +525,40 @@ class TitleState extends MusicBeatState
 		{
 			remove(ngSpr);
 			remove(credGroup);
+			FlxG.camera.stopFX();
 			FlxG.camera.flash(FlxColor.WHITE, 4);
 			skippedIntro = true;
+		}
+	}
+
+	function ringtoneEaster():Void
+	{
+		easterTriggered = true;
+
+		FlxG.camera.stopFX();
+		FlxG.camera.flash(FlxColor.WHITE, 0.5);
+
+		FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
+		FlxG.sound.playMusic(Paths.music('girlfriendsRingtone'), 1);
+
+		Conductor.bpm = easterBPM;
+		musicBPM = easterBPM;
+
+		curHue = FlxG.random.float(0.0, 1.0);
+
+		try
+		{
+			var shaderText = Paths.getTextFromFile('shaders/hue.frag');
+			if (shaderText != null)
+			{
+				easterShader = new FlxRuntimeShader(shaderText);
+				easterShader.setFloat('hue', curHue);
+				FlxG.camera.setFilters([new ShaderFilter(easterShader)]);
+			}
+		}
+		catch (e:Dynamic)
+		{
+			trace(e);
 		}
 	}
 }
