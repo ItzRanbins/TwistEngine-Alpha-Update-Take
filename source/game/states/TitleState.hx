@@ -526,7 +526,7 @@ class TitleState extends MusicBeatState
 			remove(ngSpr);
 			remove(credGroup);
 			FlxG.camera.stopFX();
-			FlxG.camera.flash(FlxColor.WHITE, 4);
+			FlxG.camera.flash(FlxColor.WHITE, 2);
 			skippedIntro = true;
 		}
 	}
@@ -536,7 +536,7 @@ class TitleState extends MusicBeatState
 		easterTriggered = true;
 
 		FlxG.camera.stopFX();
-		FlxG.camera.flash(FlxColor.WHITE, 0.5);
+		FlxG.camera.flash(FlxColor.WHITE, 1);
 
 		FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
 		FlxG.sound.playMusic(Paths.music('girlfriendsRingtone'), 1);
