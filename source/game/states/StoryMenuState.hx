@@ -93,7 +93,6 @@ class StoryMenuState extends MusicBeatState
 			return;
 		}
 
-		// Безопасный преднатяг ресурсов с проверками на null
 		for (week in loadedWeeks)
 		{
 			var wData = week.data;
@@ -142,7 +141,6 @@ class StoryMenuState extends MusicBeatState
 					weekImg = wData.storyMenu.storyName.toLowerCase();
 			}
 
-			// Пытаемся загрузить график, если не получается - используем default
 			var graphic = Paths.image('storymenu/' + weekImg);
 			if (graphic == null || graphic.bitmap == null)
 			{
@@ -167,7 +165,6 @@ class StoryMenuState extends MusicBeatState
 		bgSprite.updateHitbox();
 		add(bgSprite);
 
-		// Безопасная загрузка шейдера
 		var shaderPath:String = Paths.file('shaders/engine/bgColorGradient.frag');
 		if (shaderPath != null && openfl.utils.Assets.exists(shaderPath))
 		{
@@ -238,7 +235,6 @@ class StoryMenuState extends MusicBeatState
 
 	function scrambleText(desc:String, track:String)
 	{
-		// Отменяем старые scramble-процессы
 		isScramblingDesc = false;
 		isScramblingTrack = false;
 
@@ -447,7 +443,6 @@ class StoryMenuState extends MusicBeatState
 			bgGradientShader.setFloatArray('u_botColor', [botColor.redFloat, botColor.greenFloat, botColor.blueFloat]);
 		}
 
-		// Обновление персонажей с проверкой границ
 		var weekCharacters = (currentWeek.storyMenu != null && currentWeek.storyMenu.weekCharacters != null)
 			? currentWeek.storyMenu.weekCharacters : [];
 		var characterColors = (currentWeek.storyMenu != null && currentWeek.storyMenu.characterColors != null)
@@ -503,7 +498,6 @@ class StoryMenuState extends MusicBeatState
 			}
 			else
 			{
-				// Fallback на статичное изображение
 				var graphic = Paths.image('menudifficulties/' + diffName);
 				if (graphic != null)
 					difficultySprite.loadGraphic(graphic);
@@ -589,7 +583,6 @@ class StoryMenuState extends MusicBeatState
 
 	override function destroy()
 	{
-		// Очистка кэша для предотвращения утечек памяти
 		for (sprite in persistentCache)
 		{
 			if (sprite != null)
